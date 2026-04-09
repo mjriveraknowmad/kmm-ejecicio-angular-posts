@@ -13,7 +13,7 @@ export const postOwnerGuard: CanActivateFn = (route) => {
 
   if (!id) return router.createUrlTree(['/posts']);
 
-  return http.get<Post>(`/posts/${id}`).pipe(
+  return http.get<Post>(`/api/posts/${id}`).pipe(
     map((post) => {
       const user = auth.currentUser();
       if (user && post.userId === user.id) return true;

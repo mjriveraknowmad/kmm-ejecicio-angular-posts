@@ -18,7 +18,7 @@ export class AuthService {
   readonly token = computed(() => this._currentUser()?.token ?? null);
 
   login(name: string, password: string) {
-    return this.http.get<User[]>(`/users`, { params: { name, password } }).pipe(
+    return this.http.get<User[]>(`/api/users`, { params: { name, password } }).pipe(
       map((users) => {
         if (!users.length) throw new Error('Invalid credentials');
         return users[0];
