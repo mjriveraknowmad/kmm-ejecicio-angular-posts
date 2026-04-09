@@ -1,0 +1,50 @@
+<div class="flex items-end justify-between">
+  <!-- Left: title + dropdowns -->
+  <div class="flex flex-col gap-4">
+    <h1 class="text-4xl font-extrabold tracking-[-0.9px] text-[#2A3439] leading-10">
+      {{ 'posts.list.title' | transloco }}
+    </h1>
+    <div class="flex items-center gap-3">
+      <!-- Author filter -->
+      <div class="relative">
+        <select
+          [value]="selectedUserId() ?? ''"
+          (change)="onAuthorChange($event)"
+          class="h-9 min-w-[144px] rounded bg-[#F0F4F7] pl-4 pr-8 text-sm font-medium text-[#566166] appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
+        >
+          <option value="">{{ 'posts.list.filterByAuthor' | transloco }}</option>
+          @for (user of users(); track user.id) {
+            <option [value]="user.id">{{ user.name }}</option>
+          }
+        </select>
+        <span
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-[#566166]"
+        ></span>
+      </div>
+
+      <!-- Tag filter -->
+      <div class="relative">
+        <select
+          [value]="selectedTag()"
+          (change)="onTagChange($event)"
+          class="h-9 min-w-[130px] rounded bg-[#F0F4F7] pl-4 pr-8 text-sm font-medium text-[#566166] appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
+        >
+          <option value="">{{ 'posts.list.filterByTag' | transloco }}</option>
+          @for (tag of allTags; track tag) {
+            <option [value]="tag">{{ tag }}</option>
+          }
+        </select>
+        <span
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-[#566166]"
+        ></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: results counter -->
+  @if (totalCount() > 0) {
+    <p class="text-[10px] font-bold tracking-[1px] uppercase text-[#566166]">
+      {{ 'posts.list.totalCount' | transloco: { count: currentCount(), total: totalCount() } }}
+    </p>
+  }
+</div>

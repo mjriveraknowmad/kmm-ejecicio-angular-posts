@@ -41,7 +41,7 @@
       "searchPlaceholder": "Search posts...",
       "allAuthors": "All",
       "allTags": "All",
-      "totalCount": "Showing {{from}}-{{to}} of {{total}} results"
+      "totalCount": "Showing {{count}} of {{total}} results"
     },
     "detail": {
       "edit": "Edit",

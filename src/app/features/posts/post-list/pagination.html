@@ -1,0 +1,38 @@
+@if (totalPages() > 1) {
+  <nav class="flex items-center justify-between" aria-label="Pagination">
+    <button
+      (click)="pageChange.emit(currentPage() - 1)"
+      [disabled]="currentPage() === 1"
+      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+    >
+      {{ 'pagination.previous' | transloco }}
+    </button>
+
+    <div class="flex items-center gap-1">
+      @for (page of pages(); track $index) {
+        @if (page === '...') {
+          <span class="w-8 text-center text-sm text-[#566166]">…</span>
+        } @else {
+          <button
+            (click)="pageChange.emit(page)"
+            [class]="
+              page === currentPage()
+                ? 'w-10 h-10 rounded-[6px] bg-[#0053DC] text-white text-sm font-bold flex items-center justify-center'
+                : 'w-10 h-10 rounded-[6px] text-sm font-bold text-[#566166] hover:bg-[#F0F4F7] flex items-center justify-center transition-colors'
+            "
+          >
+            {{ page }}
+          </button>
+        }
+      }
+    </div>
+
+    <button
+      (click)="pageChange.emit(currentPage() + 1)"
+      [disabled]="currentPage() === totalPages()"
+      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+    >
+      {{ 'pagination.next' | transloco }}
+    </button>
+  </nav>
+}

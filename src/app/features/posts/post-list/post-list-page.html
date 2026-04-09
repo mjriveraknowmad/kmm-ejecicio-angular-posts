@@ -1,2 +1,36 @@
-<h1 class="mb-6 text-2xl font-semibold text-gray-900">{{ 'posts.list.title' | transloco }}</h1>
-<!-- Post list will be implemented in next phase -->
+<div class="flex flex-col gap-12">
+  <!-- Filter bar -->
+  <app-post-filters
+    [users]="usersResource.value() ?? []"
+    [selectedUserId]="selectedUserId()"
+    [selectedTag]="tag()"
+    [totalCount]="total()"
+    [currentCount]="posts().length"
+    (authorChange)="onAuthorChange($event)"
+    (tagChange)="onTagChange($event)"
+  />
+
+  <!-- Post list: loading / error / empty / data -->
+  @if (postsResource.isLoading()) {
+    <div class="flex justify-center py-16">
+      <app-loading-spinner />
+    </div>
+  } @else if (postsResource.error()) {
+    <app-error-state />
+  } @else if (!posts().length) {
+    <app-empty-state />
+  } @else {
+    <div class="flex flex-col gap-4">
+      @for (post of posts(); track post.id) {
+        <app-post-card [post]="post" [currentUserId]="auth.currentUser()?.id" />
+      }
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [currentPage]="page()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</div>
