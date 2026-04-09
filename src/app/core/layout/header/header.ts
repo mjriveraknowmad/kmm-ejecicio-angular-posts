@@ -27,7 +27,7 @@ export class HeaderComponent {
     ),
     { initialValue: this.router.url },
   );
-  readonly showSearch = computed(() => this.currentUrl().startsWith('/posts'));
+  readonly showSearch = computed(() => this.currentUrl().endsWith('/posts'));
 
   logout() {
     this.auth.logout();
