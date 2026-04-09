@@ -1,2 +1,68 @@
-<p class="text-gray-500">{{ 'common.loading' | transloco }}</p>
-<!-- Post detail will be implemented in next phase -->
+@if (postResource.isLoading()) {
+  <div class="flex justify-center py-16">
+    <app-loading-spinner />
+  </div>
+} @else if (postResource.error()) {
+  <app-error-state />
+} @else if (postResource.value(); as post) {
+  <div class="flex flex-col gap-20 max-w-3xl">
+    <!-- Article -->
+    <article class="flex flex-col gap-8">
+      <!-- Heading + owner actions -->
+      <div class="flex items-start justify-between gap-4">
+        <h1 class="text-4xl font-extrabold tracking-[-1.8px] text-[#2A3439] leading-[45px]">
+          {{ post.title }}
+        </h1>
+
+        @if (isOwner()) {
+          <div class="flex items-center gap-2 shrink-0 pt-1">
+            <a
+              [routerLink]="['/post', post.id, 'edit']"
+              class="rounded px-3 py-1 text-sm font-medium text-white bg-[#0053DC] hover:bg-blue-700 transition-colors"
+            >
+              {{ 'posts.detail.edit' | transloco }}
+            </a>
+
+            @if (!isConfirmingDelete()) {
+              <button
+                (click)="isConfirmingDelete.set(true)"
+                class="rounded px-3 py-1 text-sm font-medium text-[#9F403D] border border-[rgba(159,64,61,0.2)] hover:bg-red-50 transition-colors"
+              >
+                {{ 'posts.detail.delete' | transloco }}
+              </button>
+            } @else {
+              <button
+                (click)="confirmDelete()"
+                class="rounded px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+              >
+                {{ 'posts.detail.deleteConfirm' | transloco }}
+              </button>
+              <button
+                (click)="isConfirmingDelete.set(false)"
+                class="rounded px-3 py-1 text-sm font-medium text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
+              >
+                {{ 'common.cancel' | transloco }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Body -->
+      <p class="text-lg leading-[29px] text-[#566166]">
+        {{ post.body }}
+      </p>
+    </article>
+
+    <!-- Comments — deferred until viewport -->
+    @defer (on viewport) {
+      <app-comment-section [postId]="idAsNumber()" />
+    } @placeholder {
+      <p class="text-sm text-[#56616699]">
+        {{ 'posts.detail.loadingComments' | transloco }}
+      </p>
+    }
+  </div>
+} @else {
+  <app-error-state />
+}
