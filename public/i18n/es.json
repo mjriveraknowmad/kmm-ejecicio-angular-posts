@@ -18,11 +18,14 @@
     "form": {
       "username": "Usuario",
       "password": "Contraseña",
-      "submit": "Acceder →",
+      "submit": "Acceder",
       "usernamePlaceholder": "usuario",
       "passwordPlaceholder": "contraseña"
     },
-    "error": "Usuario o contraseña incorrectos."
+    "errors": {
+      "invalidCredentials": "Usuario o contraseña incorrectos.",
+      "required": "Este campo es obligatorio."
+    }
   },
   "header": {
     "logout": "Salir",

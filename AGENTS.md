@@ -132,16 +132,16 @@ Base URL: `http://localhost:3000` (transparent via Angular proxy)
 
 | Operation | Example |
 |-----------|---------|
-| Paginate | `GET /posts?_page=1&_limit=10` — responds with `X-Total-Count` header |
-| Search | `GET /posts?q=angular` — full-text on all fields |
-| Filter | `GET /posts?userId=1`, `GET /posts?tags_like=angular` |
-| Expand | `GET /posts?_expand=user` — embeds related user |
-| Get one | `GET /posts/1` |
-| Create | `POST /posts` |
-| Update | `PUT /posts/1` |
-| Delete | `DELETE /posts/1` |
+| Paginate | `GET /api/posts?_page=1&_limit=10` — responds with `X-Total-Count` header |
+| Search | `GET /api/posts?q=angular` — full-text on all fields |
+| Filter | `GET /api/posts?userId=1`, `GET /api/posts?tags_like=angular` |
+| Expand | `GET /api/posts?_expand=user` — embeds related user |
+| Get one | `GET /api/posts/1` |
+| Create | `POST /api/posts` |
+| Update | `PUT /api/posts/1` |
+| Delete | `DELETE /api/posts/1` |
 
-**Auth:** The login flow GETs `/users?name=X&password=Y`. On match, a static token is generated (`btoa(id:name:timestamp)`) and stored in `localStorage`. All subsequent requests include `Authorization: Bearer <token>` via `authInterceptor`.
+**Auth:** The login flow GETs `/api/users?name=X&password=Y`. On match, a static token is generated (`btoa(id:name:timestamp)`) and stored in `localStorage`. All subsequent requests include `Authorization: Bearer <token>` via `authInterceptor`.
 
 **Mock credentials:** `alice/alice123`, `bruno/bruno123`, `carla/carla123`
 
@@ -154,7 +154,7 @@ Base URL: `http://localhost:3000` (transparent via Angular proxy)
 ```typescript
 // In a container component
 readonly posts = httpResource(() => ({
-  url: '/posts',
+  url: '/api/posts',
   params: { _page: this.page(), _limit: 10, q: this.search() },
 }));
 // posts.value() | posts.isLoading() | posts.error()
@@ -165,21 +165,46 @@ readonly posts = httpResource(() => ({
 ```typescript
 // Mutation via HttpClient (not httpResource)
 createPost(data: Partial<Post>) {
-  return this.http.post<Post>('/posts', { ...data, userId: this.auth.currentUser()!.id, createdAt: new Date().toISOString() });
+  return this.http.post<Post>('/api/posts', { ...data, userId: this.auth.currentUser()!.id, createdAt: new Date().toISOString() });
 }
 ```
 
 ### Signal Forms
 
-```typescript
-import { formGroup, formControl } from '@angular/forms';
+Import from `@angular/forms/signals` (not `@angular/forms`):
 
-readonly form = formGroup({
-  title: formControl('', { validators: [Validators.required] }),
-  body:  formControl('', { validators: [Validators.required] }),
-  tags:  formControl(''),
+```typescript
+import { signal } from '@angular/core';
+import { form, FormField, required, minLength } from '@angular/forms/signals';
+
+interface PostData {
+  title: string;
+  body: string;
+  tags: string;
+}
+
+// 1. Create the model signal
+readonly postModel = signal<PostData>({ title: '', body: '', tags: '' });
+
+// 2. Pass model + schema to form()
+readonly postForm = form(this.postModel, (f) => {
+  required(f.title);
+  required(f.body);
+  minLength(f.title, 3);
 });
 ```
+
+Template — import `FormField` directive in component `imports: [FormField]`:
+
+```html
+<input type="text" [formField]="postForm.title" />
+@if (postForm.title().touched() && !postForm.title().valid()) {
+  <p>{{ postForm.title().errors()[0]?.message }}</p>
+}
+```
+
+Key field state signals: `field().value()`, `field().valid()`, `field().touched()`,
+`field().dirty()`, `field().errors()`, `field().disabled()`.
 
 ### Query params as state
 
@@ -280,7 +305,7 @@ Before considering any feature complete, verify:
 - [ ] Both `es.json` and `en.json` have the new keys
 - [ ] Loading, empty, and error states are handled in every container
 - [ ] Only own resources show edit/delete buttons
-- [ ] `/posts/:id/edit` redirects to `/forbidden` for non-owners
+- [ ] `/api/posts/:id/edit` redirects to `/forbidden` for non-owners
 - [ ] Routes are lazy loaded (verify chunks in build output)
 - [ ] Unit test added or updated for changed logic
 - [ ] Mobile layout works at 375px width

@@ -1,7 +1,147 @@
-<div class="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-  <div class="w-full max-w-sm rounded-lg bg-white p-8 shadow-sm border border-gray-100">
-    <h1 class="mb-1 text-2xl font-semibold text-gray-900">{{ 'login.title' | transloco }}</h1>
-    <p class="mb-6 text-sm text-gray-500">{{ 'login.subtitle' | transloco }}</p>
-    <!-- Form will be implemented in next phase -->
-  </div>
+<!-- Fondo y layout principal -->
+<div class="min-h-screen flex flex-col bg-[#F7F9FB] relative">
+  <!-- Header -->
+  <header class="w-full flex justify-between items-center px-6 py-4 absolute top-0 left-0 z-10">
+    <span class="font-bold text-xl tracking-tight text-[#2A3439] select-none">
+      {{ 'common.appName' | transloco }}
+    </span>
+    <app-language-selector class="ml-auto" />
+  </header>
+
+  <!-- Centrado del formulario -->
+  <main class="flex flex-1 items-center justify-center">
+    <div class="flex flex-col gap-10 w-full max-w-md">
+      <!-- Título y subtítulo -->
+      <div>
+        <h1 class="text-3xl font-extrabold text-[#2A3439] leading-tight">
+          {{ 'login.title' | transloco }}
+        </h1>
+        <p class="text-base text-[#566166] mt-1">{{ 'login.subtitle' | transloco }}</p>
+      </div>
+
+      <!-- Card del formulario -->
+      <section
+        class="bg-white border border-[#A9B4B91A] shadow-[0_10px_40px_rgba(42,52,57,0.04)] rounded-lg px-8 pt-8 pb-12 flex flex-col gap-6"
+      >
+        <form (submit)="onSubmit($event)" class="flex flex-col gap-6">
+          <!-- Usuario -->
+          <div>
+            <label
+              class="block text-xs font-bold text-[#566166] uppercase tracking-wide mb-2"
+              for="name"
+            >
+              {{ 'login.form.username' | transloco }}
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2">
+                <!-- Icono usuario -->
+                <svg width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M6.66667 6.66667C5.75 6.66667 4.96528 6.34028 4.3125 5.6875C3.65972 5.03472 3.33333 4.25 3.33333 3.33333C3.33333 2.41667 3.65972 1.63194 4.3125 0.979167C4.96528 0.326389 5.75 0 6.66667 0C7.58333 0 8.36806 0.326389 9.02083 0.979167C9.67361 1.63194 10 2.41667 10 3.33333C10 4.25 9.67361 5.03472 9.02083 5.6875C8.36806 6.34028 7.58333 6.66667 6.66667 6.66667ZM0 13.3333V11C0 10.5278 0.121528 10.0938 0.364583 9.69792C0.607639 9.30208 0.930556 9 1.33333 8.79167C2.19444 8.36111 3.06944 8.03819 3.95833 7.82292C4.84722 7.60764 5.75 7.5 6.66667 7.5C7.58333 7.5 8.48611 7.60764 9.375 7.82292C10.2639 8.03819 11.1389 8.36111 12 8.79167C12.4028 9 12.7257 9.30208 12.9688 9.69792C13.2118 10.0938 13.3333 10.5278 13.3333 11V13.3333H0ZM1.66667 11.6667H11.6667V11C11.6667 10.8472 11.6285 10.7083 11.5521 10.5833C11.4757 10.4583 11.375 10.3611 11.25 10.2917C10.5 9.91667 9.74306 9.63542 8.97917 9.44792C8.21528 9.26042 7.44444 9.16667 6.66667 9.16667C5.88889 9.16667 5.11806 9.26042 4.35417 9.44792C3.59028 9.63542 2.83333 9.91667 2.08333 10.2917C1.95833 10.3611 1.85764 10.4583 1.78125 10.5833C1.70486 10.7083 1.66667 10.8472 1.66667 11V11.6667ZM6.66667 5C7.125 5 7.51736 4.83681 7.84375 4.51042C8.17014 4.18403 8.33333 3.79167 8.33333 3.33333C8.33333 2.875 8.17014 2.48264 7.84375 2.15625C7.51736 1.82986 7.125 1.66667 6.66667 1.66667C6.20833 1.66667 5.81597 1.82986 5.48958 2.15625C5.16319 2.48264 5 2.875 5 3.33333C5 3.79167 5.16319 4.18403 5.48958 4.51042C5.81597 4.83681 6.20833 5 6.66667 5Z"
+                    fill="#566166"
+                  />
+                </svg>
+              </span>
+              <input
+                id="name"
+                type="text"
+                class="pl-10 pr-4 py-4 w-full rounded-lg border border-[#A9B4B926] bg-[#D9E4EA4D] text-base text-[#717C82] placeholder:text-[#717C8299] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [formField]="loginForm.name"
+                [placeholder]="'login.form.usernamePlaceholder' | transloco"
+                autocomplete="username"
+              />
+            </div>
+            @if (loginForm.name().touched() && loginForm.name().invalid()) {
+              <p class="text-xs text-red-500 mt-1" role="alert">
+                {{
+                  (loginForm.name().errors()[0]?.kind
+                    ? `login.errors.${loginForm.name().errors()[0].kind}`
+                    : 'common.error'
+                  ) | transloco
+                }}
+              </p>
+            }
+          </div>
+
+          <!-- Contraseña -->
+          <div>
+            <label
+              class="block text-xs font-bold text-[#566166] uppercase tracking-wide mb-2"
+              for="password"
+            >
+              {{ 'login.form.password' | transloco }}
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2">
+                <!-- Icono candado -->
+                <svg width="14" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M1.66667 17.5C1.20833 17.5 0.815972 17.3368 0.489583 17.0104C0.163194 16.684 0 16.2917 0 15.8333V7.5C0 7.04167 0.163194 6.64931 0.489583 6.32292C0.815972 5.99653 1.20833 5.83333 1.66667 5.83333H2.5V4.16667C2.5 3.01389 2.90625 2.03125 3.71875 1.21875C4.53125 0.40625 5.51389 0 6.66667 0C7.81944 0 8.80208 0.40625 9.61458 1.21875C10.4271 2.03125 10.8333 3.01389 10.8333 4.16667V5.83333H11.6667C12.125 5.83333 12.5174 5.99653 12.8438 6.32292C13.1701 6.64931 13.3333 7.04167 13.3333 7.5V15.8333C13.3333 16.2917 13.1701 16.684 12.8438 17.0104C12.5174 17.3368 12.125 17.5 11.6667 17.5H1.66667ZM1.66667 15.8333H11.6667V7.5H1.66667V15.8333ZM6.66667 13.3333C7.125 13.3333 7.51736 13.1701 7.84375 12.8438C8.17014 12.5174 8.33333 12.125 8.33333 11.6667C8.33333 11.2083 8.17014 10.816 7.84375 10.4896C7.51736 10.1632 7.125 10 6.66667 10C6.20833 10 5.81597 10.1632 5.48958 10.4896C5.16319 10.816 5 11.2083 5 11.6667C5 12.125 5.16319 12.5174 5.48958 12.8438C5.81597 13.1701 6.20833 13.3333 6.66667 13.3333ZM4.16667 5.83333H9.16667V4.16667C9.16667 3.47222 8.92361 2.88194 8.4375 2.39583C7.95139 1.90972 7.36111 1.66667 6.66667 1.66667C5.97222 1.66667 5.38194 1.90972 4.89583 2.39583C4.40972 2.88194 4.16667 3.47222 4.16667 4.16667V5.83333ZM1.66667 15.8333V7.5V15.8333Z"
+                    fill="#566166"
+                  />
+                </svg>
+              </span>
+              <input
+                id="password"
+                type="password"
+                class="pl-10 pr-4 py-4 w-full rounded-lg border border-[#A9B4B926] bg-[#D9E4EA4D] text-base text-[#717C82] placeholder:text-[#717C8299] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [formField]="loginForm.password"
+                [placeholder]="'login.form.passwordPlaceholder' | transloco"
+                autocomplete="current-password"
+              />
+            </div>
+
+            @if (loginForm.password().touched() && loginForm.password().invalid()) {
+              <p class="text-xs text-red-500 mt-1" role="alert">
+                @if (loginForm.password().invalid()) {
+                  {{
+                    (loginForm.password().errors()[0]?.kind
+                      ? `login.errors.${loginForm.password().errors()[0].kind}`
+                      : 'common.error'
+                    ) | transloco
+                  }}
+                }
+              </p>
+            }
+          </div>
+
+          <!-- Error message -->
+          @if (errorMessage()) {
+            <p class="text-sm text-red-600">{{ errorMessage() | transloco }}</p>
+          }
+
+          <!-- Botón -->
+          <button
+            type="submit"
+            class="mt-2 w-full flex justify-center items-center gap-2 bg-gradient-to-r from-[#0053DC] to-[#3E76FE] text-white font-bold text-lg py-3 rounded-lg shadow-md hover:from-[#003fa3] hover:to-[#2a5bb8] transition disabled:opacity-60"
+            [disabled]="isLoading()"
+          >
+            {{ 'login.form.submit' | transloco }}
+            @if (isLoading()) {
+              <span
+                class="font-bold text-[16px] leading-[24px] tracking-[0px] text-center font-sans"
+                >{{ 'common.loading' | transloco }}</span
+              >
+            } @else {
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="ml-2"
+              >
+                <path
+                  d="M3 8h10m0 0l-4-4m4 4l-4 4"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          </button>
+        </form>
+      </section>
+    </div>
+  </main>
 </div>

@@ -18,11 +18,14 @@
     "form": {
       "username": "Username",
       "password": "Password",
-      "submit": "Sign in →",
+      "submit": "Sign in",
       "usernamePlaceholder": "username",
       "passwordPlaceholder": "password"
     },
-    "error": "Invalid username or password."
+    "errors": {
+      "invalidCredentials": "Invalid username or password.",
+      "required": "This field is required."
+    }
   },
   "header": {
     "logout": "Sign out",
