@@ -1,0 +1,36 @@
+<header class="sticky top-0 z-50 border-b border-gray-100 bg-white">
+  <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+    <!-- Logo -->
+    <a routerLink="/posts" class="text-base font-semibold text-gray-900 tracking-tight">
+      {{ 'common.appName' | transloco }}
+    </a>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3">
+      <!-- Lang toggle -->
+      <button
+        (click)="toggleLang()"
+        class="rounded border border-gray-200 px-2 py-1 text-xs font-medium text-gray-500 uppercase hover:bg-gray-50 transition-colors"
+        [attr.aria-label]="'Switch language'"
+      >
+        {{ currentLang() === 'es' ? 'EN' : 'ES' }}
+      </button>
+
+      <!-- New post -->
+      <a
+        routerLink="/posts/new"
+        class="rounded border border-gray-200 px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+      >
+        {{ 'header.newPost' | transloco }}
+      </a>
+
+      <!-- Logout -->
+      <button
+        (click)="logout()"
+        class="rounded px-3 py-1 text-xs font-medium text-gray-500 hover:text-gray-800 transition-colors"
+      >
+        {{ 'header.logout' | transloco }}
+      </button>
+    </div>
+  </div>
+</header>

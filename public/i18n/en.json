@@ -1,0 +1,88 @@
+{
+  "common": {
+    "appName": "TechPoC",
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "empty": "No results found.",
+    "forbidden": "You don't have permission to access this resource.",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "by": "by"
+  },
+  "login": {
+    "title": "Welcome",
+    "subtitle": "Enter your credentials",
+    "form": {
+      "username": "Username",
+      "password": "Password",
+      "submit": "Sign in →",
+      "usernamePlaceholder": "username",
+      "passwordPlaceholder": "password"
+    },
+    "error": "Invalid username or password."
+  },
+  "header": {
+    "logout": "Sign out",
+    "search": "Search posts...",
+    "newPost": "New"
+  },
+  "posts": {
+    "list": {
+      "title": "Posts",
+      "empty": "No posts available.",
+      "filterByAuthor": "Author",
+      "filterByTag": "Tags",
+      "searchPlaceholder": "Search posts...",
+      "allAuthors": "All",
+      "allTags": "All",
+      "totalCount": "Showing {{from}}-{{to}} of {{total}} results"
+    },
+    "detail": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this post?",
+      "loadingComments": "Loading comments...",
+      "noComments": "Be the first to comment."
+    },
+    "editor": {
+      "newTitle": "New post",
+      "editTitle": "Edit post",
+      "subtitle": "Write your post",
+      "form": {
+        "title": "Title",
+        "titlePlaceholder": "Post title...",
+        "body": "Content",
+        "bodyPlaceholder": "Post content...",
+        "tags": "Tags",
+        "tagsPlaceholder": "Tags, comma separated",
+        "submit": "Publish",
+        "submitEdit": "Save"
+      }
+    },
+    "card": {
+      "readMore": "Read more"
+    }
+  },
+  "comments": {
+    "title": "Comments",
+    "count": "{{count}} comment(s)",
+    "empty": "Be the first to comment.",
+    "form": {
+      "placeholder": "Write your comment...",
+      "submit": "Publish comment"
+    },
+    "delete": "Delete"
+  },
+  "pagination": {
+    "previous": "← Previous",
+    "next": "Next →"
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "message": "You don't have permission to perform this action.",
+    "back": "Back to list"
+  }
+}

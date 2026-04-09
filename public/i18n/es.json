@@ -1,0 +1,88 @@
+{
+  "common": {
+    "appName": "TechPoC",
+    "loading": "Cargando...",
+    "error": "Algo salió mal. Inténtalo de nuevo.",
+    "empty": "No hay resultados.",
+    "forbidden": "No tienes permiso para acceder a este recurso.",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "by": "por"
+  },
+  "login": {
+    "title": "Bienvenido",
+    "subtitle": "Introduce tus credenciales",
+    "form": {
+      "username": "Usuario",
+      "password": "Contraseña",
+      "submit": "Acceder →",
+      "usernamePlaceholder": "usuario",
+      "passwordPlaceholder": "contraseña"
+    },
+    "error": "Usuario o contraseña incorrectos."
+  },
+  "header": {
+    "logout": "Salir",
+    "search": "Buscar posts...",
+    "newPost": "Nuevo"
+  },
+  "posts": {
+    "list": {
+      "title": "Lista de posts",
+      "empty": "No hay posts disponibles.",
+      "filterByAuthor": "Autor",
+      "filterByTag": "Tags",
+      "searchPlaceholder": "Buscar posts...",
+      "allAuthors": "Todos",
+      "allTags": "Todos",
+      "totalCount": "Mostrando {{from}}-{{to}} de {{total}} resultados"
+    },
+    "detail": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "deleteConfirm": "¿Eliminar este post?",
+      "loadingComments": "Cargando comentarios...",
+      "noComments": "Sé el primero en comentar."
+    },
+    "editor": {
+      "newTitle": "Nuevo post",
+      "editTitle": "Editar post",
+      "subtitle": "Escribe tu post",
+      "form": {
+        "title": "Título",
+        "titlePlaceholder": "Título del post...",
+        "body": "Contenido",
+        "bodyPlaceholder": "Contenido del post...",
+        "tags": "Tags",
+        "tagsPlaceholder": "Tags, separados por coma",
+        "submit": "Publicar",
+        "submitEdit": "Guardar"
+      }
+    },
+    "card": {
+      "readMore": "Leer más"
+    }
+  },
+  "comments": {
+    "title": "Comentarios",
+    "count": "{{count}} comentario(s)",
+    "empty": "Sé el primero en comentar.",
+    "form": {
+      "placeholder": "Escribe tu comentario...",
+      "submit": "Publicar comentario"
+    },
+    "delete": "Eliminar"
+  },
+  "pagination": {
+    "previous": "← Anterior",
+    "next": "Siguiente →"
+  },
+  "forbidden": {
+    "title": "Acceso denegado",
+    "message": "No tienes permiso para realizar esta acción.",
+    "back": "Volver al listado"
+  }
+}

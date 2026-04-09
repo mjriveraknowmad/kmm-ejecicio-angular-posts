@@ -1,0 +1,11 @@
+<div class="flex min-h-[60vh] flex-col items-center justify-center text-center">
+  <p class="mb-2 text-6xl font-bold text-gray-200">403</p>
+  <h1 class="mb-2 text-xl font-semibold text-gray-800">{{ 'forbidden.title' | transloco }}</h1>
+  <p class="mb-6 text-sm text-gray-500">{{ 'forbidden.message' | transloco }}</p>
+  <a
+    routerLink="/posts"
+    class="rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 transition-colors"
+  >
+    {{ 'forbidden.back' | transloco }}
+  </a>
+</div>
