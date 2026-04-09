@@ -12,22 +12,7 @@
   <div class="flex w-full gap-3 items-center justify-end">
     <!-- Search -->
     @if (showSearch()) {
-      <div class="relative sm:min-w-[300px]">
-        <img
-          src="search.svg"
-          alt="Search"
-          class="absolute left-3 top-1/2 -translate-y-1/2 w-[10.5px] h-[10.5px] pointer-events-none opacity-70"
-          style="filter: invert(38%) sepia(10%) saturate(400%) hue-rotate(155deg) brightness(90%)"
-        />
-        <input
-          #searchInput
-          type="search"
-          [value]="searchValue()"
-          (input)="onSearch(searchInput.value)"
-          [placeholder]="'header.search' | transloco"
-          class="w-full h-[50px] rounded bg-[#F0F4F7] border border-[rgba(169,180,185,0.1)] pl-9 pr-3 px-3 text-sm text-[#566166] placeholder:text-[#566166] focus:outline-none focus:ring-1 focus:ring-[rgba(169,180,185,0.3)]"
-        />
-      </div>
+      <app-search [urlSearchPrefix]="'/posts'"></app-search>
     }
 
     <!-- Right actions -->

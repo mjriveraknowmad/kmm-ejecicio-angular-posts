@@ -9,18 +9,17 @@ import { LanguageSelectorComponent } from '../../../shared/components/language-s
 import { AuthService } from '../../auth/services/auth.service';
 import { NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SearchComponent } from '../../../shared/components/search';
 
 @Component({
   selector: 'app-header',
-  imports: [TranslocoModule, LanguageSelectorComponent, RouterLink],
+  imports: [TranslocoModule, LanguageSelectorComponent, RouterLink, SearchComponent],
   templateUrl: './header.html',
 })
 export class HeaderComponent {
   protected auth = inject(AuthService);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
-  private URL_SEARCH_PREFIX = '/posts';
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -28,27 +27,7 @@ export class HeaderComponent {
     ),
     { initialValue: this.router.url },
   );
-  readonly showSearch = computed(() => this.currentUrl().startsWith(this.URL_SEARCH_PREFIX));
-
-  private readonly currentQ = toSignal(
-    this.route.queryParams.pipe(map((p) => (p['q'] as string) ?? '')),
-    { initialValue: '' },
-  );
-  readonly searchValue = linkedSignal(() => this.currentQ());
-  private readonly searchSubject$ = new Subject<string>();
-
-  constructor() {
-    this.searchSubject$.pipe(debounceTime(300), takeUntilDestroyed()).subscribe((q) => {
-      this.router.navigate([this.URL_SEARCH_PREFIX], {
-        queryParams: { q: q || null, page: 1 },
-      });
-    });
-  }
-
-  onSearch(value: string) {
-    this.searchValue.set(value);
-    this.searchSubject$.next(value);
-  }
+  readonly showSearch = computed(() => this.currentUrl().startsWith('/posts'));
 
   logout() {
     this.auth.logout();
