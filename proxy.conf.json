@@ -1,0 +1,17 @@
+{
+  "/posts": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "logLevel": "warn"
+  },
+  "/users": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "logLevel": "warn"
+  },
+  "/comments": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "logLevel": "warn"
+  }
+}
