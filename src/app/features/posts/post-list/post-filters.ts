@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
+import { RouterLink } from '@angular/router';
 
 interface UserOption {
   id: number;
@@ -21,7 +22,7 @@ const ALL_TAGS = [
 
 @Component({
   selector: 'app-post-filters',
-  imports: [TranslocoModule],
+  imports: [TranslocoModule, RouterLink],
   templateUrl: './post-filters.html',
 })
 export class PostFiltersComponent {
