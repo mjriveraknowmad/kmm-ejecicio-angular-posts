@@ -22,13 +22,11 @@ export class CommentFormComponent {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    const valid = await submit(this.commentForm);
-    if (!valid) return;
-
-    const body = this.commentModel().body.trim();
-    if (!body) return;
-
-    this.commentSubmit.emit(body);
-    this.commentModel.set({ body: '' });
+    submit(this.commentForm, async () => {
+      const body = this.commentModel().body.trim();
+      if (!body) return;
+      this.commentSubmit.emit(body);
+      this.commentModel.set({ body: '' });
+    });
   }
 }
