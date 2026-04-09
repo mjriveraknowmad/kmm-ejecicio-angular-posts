@@ -1,2 +1,87 @@
-<h1 class="mb-4 text-2xl font-semibold text-gray-900">{{ 'posts.editor.newTitle' | transloco }}</h1>
-<!-- Post editor will be implemented in next phase -->
+@if (isEditMode() && postResource.isLoading()) {
+  <div class="flex justify-center py-16">
+    <app-loading-spinner />
+  </div>
+} @else {
+  <div class="flex flex-col gap-12 max-w-[848px]">
+    <!-- Header -->
+    <div class="flex flex-col gap-2">
+      <h1 class="text-[36px] font-extrabold leading-10 tracking-[-0.9px] text-[#2A3439]">
+        {{ (isEditMode() ? 'posts.editor.editTitle' : 'posts.editor.newTitle') | transloco }}
+      </h1>
+      <p class="text-base text-[#566166]">{{ 'posts.editor.subtitle' | transloco }}</p>
+    </div>
+
+    <!-- Form -->
+    <form (submit)="onSubmit($event)" class="flex flex-col gap-8">
+      <!-- Title field -->
+      <div class="flex flex-col gap-3">
+        <label for="title" class="text-xs font-bold tracking-[1.2px] uppercase text-[#566166]">
+          {{ 'posts.editor.form.title' | transloco }}
+        </label>
+        <input
+          type="text"
+          id="title"
+          [formField]="postForm.title"
+          [placeholder]="'posts.editor.form.titlePlaceholder' | transloco"
+          class="w-full bg-[#D9E4EA] rounded px-6 py-[17px] text-2xl font-bold text-[#2A3439] placeholder:text-[#717C82] placeholder:font-bold outline-none"
+        />
+      </div>
+
+      <!-- Body field -->
+      <div class="flex flex-col gap-3">
+        <label for="body" class="text-xs font-bold tracking-[1.2px] uppercase text-[#566166]">
+          {{ 'posts.editor.form.body' | transloco }}
+        </label>
+        <textarea
+          id="body"
+          [formField]="postForm.body"
+          [placeholder]="'posts.editor.form.bodyPlaceholder' | transloco"
+          rows="14"
+          class="w-full bg-[#D9E4EA] rounded px-6 py-6 text-lg text-[#2A3439] placeholder:text-[#717C82] outline-none resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Tags field -->
+      <div class="flex flex-col gap-3">
+        <label for="tags" class="text-xs font-bold tracking-[1.2px] uppercase text-[#566166]">
+          {{ 'posts.editor.form.tags' | transloco }}
+        </label>
+        <div class="relative">
+          <span
+            class="absolute left-5 top-1/2 -translate-y-1/2 text-sm font-bold text-[#717C82] select-none pointer-events-none"
+            aria-hidden="true"
+            >#</span
+          >
+          <input
+            type="text"
+            id="tags"
+            [formField]="postForm.tags"
+            [placeholder]="'posts.editor.form.tagsPlaceholder' | transloco"
+            class="w-full bg-[#D9E4EA] rounded pl-12 pr-6 py-[18px] text-base text-[#2A3439] placeholder:text-[#717C82] outline-none"
+          />
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-between items-center border-t border-[rgba(169,180,185,0.15)] pt-8">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-8 py-3 rounded-md text-base font-semibold text-[#566166] hover:bg-black/5 transition-colors"
+        >
+          {{ 'common.cancel' | transloco }}
+        </button>
+        <button
+          type="submit"
+          [disabled]="isSaving()"
+          class="px-10 py-3 rounded-md text-base font-bold text-white bg-gradient-to-br from-[#0053DC] to-[#3E76FE] shadow-[0_10px_40px_rgba(0,83,220,0.15)] disabled:opacity-50 transition-opacity"
+        >
+          {{
+            (isEditMode() ? 'posts.editor.form.submitEdit' : 'posts.editor.form.submit') | transloco
+          }}
+        </button>
+      </div>
+    </form>
+  </div>
+}

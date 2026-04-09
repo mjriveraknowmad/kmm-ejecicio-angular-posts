@@ -16,7 +16,7 @@ export class PostsService {
     });
   }
 
-  update(id: number, data: Pick<Post, 'title' | 'body' | 'tags'>) {
+  update(id: number, data: Pick<Post, 'title' | 'body' | 'tags' | 'userId' | 'createdAt'>) {
     return this.http.put<Post>(`/api/posts/${id}`, data);
   }
 

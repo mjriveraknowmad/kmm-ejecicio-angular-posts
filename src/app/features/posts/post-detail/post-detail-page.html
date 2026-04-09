@@ -17,7 +17,7 @@
         @if (isOwner()) {
           <div class="flex items-center gap-2 shrink-0 pt-1">
             <a
-              [routerLink]="['/post', post.id, 'edit']"
+              [routerLink]="['/posts', post.id, 'edit']"
               class="rounded px-3 py-1 text-sm font-medium text-white bg-[#0053DC] hover:bg-blue-700 transition-colors"
             >
               {{ 'posts.detail.edit' | transloco }}

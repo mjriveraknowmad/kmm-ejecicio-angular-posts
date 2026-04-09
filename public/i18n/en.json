@@ -63,7 +63,7 @@
         "tags": "Tags",
         "tagsPlaceholder": "Tags, comma separated",
         "submit": "Publish",
-        "submitEdit": "Save"
+        "submitEdit": "Publish"
       }
     },
     "card": {
