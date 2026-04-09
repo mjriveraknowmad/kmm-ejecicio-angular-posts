@@ -1,9 +1,9 @@
-import { Component, computed, inject, input, linkedSignal } from '@angular/core';
+import { Component, inject, input, linkedSignal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Subject } from 'rxjs';
-import { debounceTime, filter, map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -31,15 +31,6 @@ export class SearchComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   urlSearchPrefix = input<string>('/posts');
-
-  private readonly currentUrl = toSignal(
-    this.router.events.pipe(
-      filter((e) => e instanceof NavigationEnd),
-      map((e) => (e as NavigationEnd).urlAfterRedirects),
-    ),
-    { initialValue: this.router.url },
-  );
-  readonly showSearch = computed(() => this.currentUrl().startsWith(this.urlSearchPrefix()));
 
   private readonly currentQ = toSignal(
     this.route.queryParams.pipe(map((p) => (p['q'] as string) ?? '')),
