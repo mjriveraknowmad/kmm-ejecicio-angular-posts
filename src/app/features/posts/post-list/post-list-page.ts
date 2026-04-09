@@ -41,7 +41,12 @@ export class PostListPageComponent {
   protected auth = inject(AuthService);
 
   // Query param inputs via withComponentInputBinding()
-  page = input(1, { transform: numberAttribute });
+  page = input(1, {
+    transform: (v: string | number) => {
+      const n = numberAttribute(v);
+      return Number.isNaN(n) ? 1 : n;
+    },
+  });
   q = input('');
   userId = input(''); // string from URL, converted to number in loader
   tag = input('');
