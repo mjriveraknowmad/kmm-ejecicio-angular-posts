@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Signal, signal, effect, inject } from '@angular/core';
+import { Component, effect, inject, output, Signal, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
@@ -26,7 +26,7 @@ import { TranslocoService } from '@jsverse/transloco';
   `,
 })
 export class LanguageSelectorComponent {
-  @Output() languageChange = new EventEmitter<string>();
+  languageChange = output<string>();
 
   private transloco = inject(TranslocoService);
   private langSignal = signal(this.transloco.getActiveLang());
