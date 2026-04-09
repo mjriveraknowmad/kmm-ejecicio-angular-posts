@@ -75,6 +75,7 @@
     "count": "{{count}} comment(s)",
     "empty": "Be the first to comment.",
     "form": {
+      "title": "Add comment",
       "placeholder": "Write your comment...",
       "submit": "Publish comment"
     },
