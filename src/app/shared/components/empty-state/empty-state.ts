@@ -6,7 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   imports: [TranslocoModule],
   template: `
     <div
-      class="flex flex-col items-center justify-center py-16 text-center"
+      class="flex flex-col items-center justify-center py-16 text-center animate-fade-in"
       role="status"
       aria-live="polite"
     >
