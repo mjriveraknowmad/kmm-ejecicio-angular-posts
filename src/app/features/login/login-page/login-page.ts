@@ -4,7 +4,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { LoginData } from '../models/login.model';
-import { LanguageSelectorComponent } from '../../../shared/components/language-selector';
+import { LanguageSelectorComponent } from '../../../shared/components/language-selector/language-selector';
 
 @Component({
   selector: 'app-login-page',

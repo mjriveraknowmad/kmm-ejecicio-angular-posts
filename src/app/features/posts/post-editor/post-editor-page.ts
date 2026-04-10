@@ -6,7 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { form, FormField, required } from '@angular/forms/signals';
 import { PostsService } from '../services/posts.service';
 import { Post } from '../models/post.model';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { AuthService } from '../../../core/auth/services/auth.service';
 
 interface PostFormData {

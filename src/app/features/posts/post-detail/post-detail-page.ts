@@ -5,9 +5,9 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { PostsService } from '../services/posts.service';
 import { PostWithUser } from '../models/post.model';
-import { CommentSectionComponent } from './comment-section';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner';
-import { ErrorStateComponent } from '../../../shared/components/error-state';
+import { CommentSectionComponent } from './components/comment-section/comment-section';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
 
 @Component({
   selector: 'app-post-detail-page',

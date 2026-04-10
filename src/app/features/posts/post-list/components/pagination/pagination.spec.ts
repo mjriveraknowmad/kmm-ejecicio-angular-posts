@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { render, screen } from '@testing-library/angular';
 import { userEvent } from '@testing-library/user-event';
-import { PaginationComponent } from './pagination';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
+import { PaginationComponent } from './pagination';
 
 const translocoConfig: TranslocoTestingOptions = {
   langs: { es: {}, en: {} },

@@ -2,11 +2,11 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { TranslocoModule } from '@jsverse/transloco';
-import { AuthService } from '../../../core/auth/services/auth.service';
-import { CommentsService } from '../services/comments.service';
-import { CommentWithUser } from '../models/comment.model';
-import { CommentFormComponent } from './comment-form';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner';
+import { AuthService } from '../../../../../core/auth/services/auth.service';
+import { CommentsService } from '../../../services/comments.service';
+import { CommentWithUser } from '../../../models/comment.model';
+import { CommentFormComponent } from '../comment-form/comment-form';
+import { LoadingSpinnerComponent } from '../../../../../shared/components/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-comment-section',

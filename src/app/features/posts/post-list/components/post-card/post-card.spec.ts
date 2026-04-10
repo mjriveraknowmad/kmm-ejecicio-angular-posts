@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/angular';
 import { provideRouter } from '@angular/router';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
 import { PostCardComponent } from './post-card';
-import { PostWithUser } from '../models/post.model';
+import { PostWithUser } from '../../../models/post.model';
 
 const translocoConfig: TranslocoTestingOptions = {
   langs: { es: {}, en: {} },

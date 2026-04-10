@@ -7,12 +7,12 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { PostsService } from '../services/posts.service';
 import { PostWithUser } from '../models/post.model';
-import { PostCardComponent } from './post-card';
-import { PostFiltersComponent } from './post-filters';
-import { PaginationComponent } from './pagination';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner';
-import { EmptyStateComponent } from '../../../shared/components/empty-state';
-import { ErrorStateComponent } from '../../../shared/components/error-state';
+import { PostCardComponent } from './components/post-card/post-card';
+import { PostFiltersComponent } from './components/post-filters/post-filters';
+import { PaginationComponent } from './components/pagination/pagination';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
 
 interface UserOption {
   id: number;

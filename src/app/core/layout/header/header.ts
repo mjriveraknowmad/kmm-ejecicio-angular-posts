@@ -1,15 +1,11 @@
-import { Component, computed, inject, linkedSignal } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { LanguageSelectorComponent } from '../../../shared/components/language-selector';
+import { filter, map } from 'rxjs/operators';
+import { LanguageSelectorComponent } from '../../../shared/components/language-selector/language-selector';
+import { SearchComponent } from '../../../shared/components/search/search';
 import { AuthService } from '../../auth/services/auth.service';
-import { NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { SearchComponent } from '../../../shared/components/search';
 
 @Component({
   selector: 'app-header',

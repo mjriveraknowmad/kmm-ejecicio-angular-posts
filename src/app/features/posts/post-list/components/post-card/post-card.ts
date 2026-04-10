@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
-import { PostWithUser } from '../models/post.model';
+import { PostWithUser } from '../../../models/post.model';
 
 @Component({
   selector: 'app-post-card',
