@@ -93,17 +93,45 @@ export class CommentSectionComponent {
   }
 
   addComment(body: string) {
+    const user = this.auth.currentUser()!;
+    const tempId = -Date.now();
+    const tempComment: CommentWithUser = {
+      id: tempId,
+      postId: this.postId(),
+      userId: user.id,
+      body,
+      createdAt: new Date().toISOString(),
+      user: { id: user.id, name: user.name, avatar: user.avatar },
+    };
+
     this.isAdding.set(true);
+    this.allComments.update((c) => [tempComment, ...c]);
+    this.total.update((n) => n + 1);
+
     this.commentsService.create(this.postId(), body).subscribe({
       next: () => {
         this.isAdding.set(false);
         this.reloadAll();
       },
-      error: () => this.isAdding.set(false),
+      error: () => {
+        this.allComments.update((c) => c.filter((x) => x.id !== tempId));
+        this.total.update((n) => Math.max(0, n - 1));
+        this.isAdding.set(false);
+      },
     });
   }
 
   deleteComment(id: number) {
-    this.commentsService.delete(id).subscribe(() => this.reloadAll());
+    const snapshot = this.allComments();
+    this.allComments.update((c) => c.filter((x) => x.id !== id));
+    this.total.update((n) => Math.max(0, n - 1));
+
+    this.commentsService.delete(id).subscribe({
+      next: () => this.reloadAll(),
+      error: () => {
+        this.allComments.set(snapshot);
+        this.total.update((n) => n + 1);
+      },
+    });
   }
 }
