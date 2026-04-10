@@ -26,6 +26,7 @@
           [post]="post"
           [currentUserId]="auth.currentUser()?.id"
           (prefetchPost)="onPrefetch($event)"
+          (cancelPrefetch)="onCancelPrefetch($event)"
         />
       }
     </div>

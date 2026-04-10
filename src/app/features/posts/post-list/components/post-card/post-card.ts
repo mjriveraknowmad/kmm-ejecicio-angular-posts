@@ -14,6 +14,7 @@ export class PostCardComponent {
   post = input.required<PostWithUser>();
   currentUserId = input<number | undefined>();
   prefetchPost = output<number>();
+  cancelPrefetch = output<number>();
 
   private transloco = inject(TranslocoService);
   readonly currentLang = toSignal(this.transloco.langChanges$, {

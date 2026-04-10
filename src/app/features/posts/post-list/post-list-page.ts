@@ -121,4 +121,8 @@ export class PostListPageComponent {
   onPrefetch(id: number) {
     this.prefetchService.prefetch(id);
   }
+
+  onCancelPrefetch(id: number) {
+    this.prefetchService.cancelPrefetch(id);
+  }
 }
