@@ -6,7 +6,7 @@
   <app-error-state />
 } @else if (postResource.value(); as post) {
   <div
-    class="flex flex-col gap-20 max-w-3xl"
+    class="flex flex-col gap-12 md:gap-20 max-w-3xl"
     role="main"
     aria-label="{{ 'posts.detail.title' | transloco }}"
   >
@@ -16,7 +16,7 @@
       <div class="flex items-start justify-between gap-4">
         <h1
           id="post-title"
-          class="text-4xl font-extrabold tracking-[-1.8px] text-[#2A3439] leading-[45px]"
+          class="text-2xl font-extrabold tracking-tight text-[#2A3439] leading-tight md:text-4xl md:tracking-[-1.8px] md:leading-[45px]"
         >
           {{ post.title }}
         </h1>

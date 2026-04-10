@@ -8,7 +8,9 @@
   <div class="flex flex-col gap-12 max-w-[848px]">
     <!-- Header -->
     <div class="flex flex-col gap-2">
-      <h1 class="text-[36px] font-extrabold leading-10 tracking-[-0.9px] text-[#2A3439]">
+      <h1
+        class="text-2xl font-extrabold leading-tight tracking-tight text-[#2A3439] sm:text-[36px] sm:leading-10 sm:tracking-[-0.9px]"
+      >
         {{ (isEditMode() ? 'posts.editor.editTitle' : 'posts.editor.newTitle') | transloco }}
       </h1>
       <p class="text-base text-[#566166]">{{ 'posts.editor.subtitle' | transloco }}</p>

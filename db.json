@@ -535,6 +535,28 @@
       "userId": 1,
       "createdAt": "2026-04-10T06:44:33.300Z",
       "id": 46
+    },
+    {
+      "title": "E2E Post 1775810979915",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T08:49:40.008Z",
+      "id": 47
+    },
+    {
+      "title": "E2E Post 1775810984077",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T08:49:44.151Z",
+      "id": 48
     }
   ],
   "comments": [
@@ -1958,6 +1980,34 @@
       "body": "Comentario del test E2E.",
       "createdAt": "2026-04-10T06:43:18.800Z",
       "id": 203
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Comentario del test E2E.",
+      "createdAt": "2026-04-10T08:49:41.018Z",
+      "id": 204
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Comentario del test E2E.",
+      "createdAt": "2026-04-10T08:49:44.790Z",
+      "id": 205
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Prueba Miriam",
+      "createdAt": "2026-04-10T08:54:11.304Z",
+      "id": 206
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Otra prueba",
+      "createdAt": "2026-04-10T08:54:18.004Z",
+      "id": 207
     }
   ]
 }
