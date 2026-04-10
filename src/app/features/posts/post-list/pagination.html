@@ -14,7 +14,7 @@
           <span class="w-8 text-center text-sm text-[#566166]">…</span>
         } @else {
           <button
-            (click)="pageChange.emit(page)"
+            (click)="page !== currentPage() && pageChange.emit(page)"
             [class]="
               page === currentPage()
                 ? 'w-10 h-10 rounded-[6px] bg-[#0053DC] text-white text-sm font-bold flex items-center justify-center'
