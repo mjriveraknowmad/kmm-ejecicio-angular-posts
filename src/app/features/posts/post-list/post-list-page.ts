@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { PostsService } from '../services/posts.service';
+import { PostPrefetchService } from '../services/post-prefetch.service';
 import { PostWithUser } from '../models/post.model';
 import { PostCardComponent } from './components/post-card/post-card';
 import { PostFiltersComponent } from './components/post-filters/post-filters';
@@ -38,6 +39,7 @@ export class PostListPageComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
   private postsService = inject(PostsService);
+  private prefetchService = inject(PostPrefetchService);
   protected auth = inject(AuthService);
 
   // Query param inputs via withComponentInputBinding()
@@ -114,5 +116,9 @@ export class PostListPageComponent {
 
   onDeletePost(id: number) {
     this.postsService.delete(id).subscribe(() => this.postsResource.reload());
+  }
+
+  onPrefetch(id: number) {
+    this.prefetchService.prefetch(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { DatePipe, UpperCasePipe } from '@angular/common';
@@ -13,6 +13,7 @@ import { PostWithUser } from '../../../models/post.model';
 export class PostCardComponent {
   post = input.required<PostWithUser>();
   currentUserId = input<number | undefined>();
+  prefetchPost = output<number>();
 
   private transloco = inject(TranslocoService);
   readonly currentLang = toSignal(this.transloco.langChanges$, {

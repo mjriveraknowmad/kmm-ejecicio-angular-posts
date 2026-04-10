@@ -22,7 +22,11 @@
   } @else {
     <div class="flex flex-col gap-4 animate-fade-in">
       @for (post of posts(); track post.id) {
-        <app-post-card [post]="post" [currentUserId]="auth.currentUser()?.id" />
+        <app-post-card
+          [post]="post"
+          [currentUserId]="auth.currentUser()?.id"
+          (prefetchPost)="onPrefetch($event)"
+        />
       }
     </div>
 
