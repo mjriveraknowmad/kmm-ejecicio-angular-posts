@@ -1,11 +1,16 @@
 import { Component, effect, inject, output, Signal, signal } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-language-selector',
   standalone: true,
+  imports: [TranslocoModule],
   template: `
-    <div class="relative flex items-center w-36 h-7 select-none">
+    <div
+      class="relative flex items-center w-36 h-7 select-none"
+      role="group"
+      [attr.aria-label]="'common.languageSelector' | transloco"
+    >
       <div class="absolute w-full h-full bg-[#D9D9D9] rounded-[10px]"></div>
       <div class="flex items-center justify-around w-full h-full px-1">
         @for (lang of langs; track lang) {
@@ -44,6 +49,7 @@ export class LanguageSelectorComponent {
     if (this.langSignal() !== lang) {
       this.langSignal.set(lang);
       localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
       this.languageChange.emit(lang);
     }
   }

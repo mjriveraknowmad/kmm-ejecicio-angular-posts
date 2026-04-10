@@ -33,7 +33,7 @@
               {{ 'login.form.username' | transloco }}
             </label>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true">
                 <!-- Icono usuario -->
                 <svg width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -45,6 +45,7 @@
               <input
                 id="name"
                 type="text"
+                aria-describedby="name-error"
                 class="pl-10 pr-4 py-4 w-full rounded-lg border border-[#A9B4B926] bg-[#D9E4EA4D] text-base text-[#717C82] placeholder:text-[#717C8299] focus:outline-none focus:ring-2 focus:ring-blue-500"
                 [formField]="loginForm.name"
                 [placeholder]="'login.form.usernamePlaceholder' | transloco"
@@ -52,7 +53,7 @@
               />
             </div>
             @if (loginForm.name().touched() && loginForm.name().invalid()) {
-              <p class="text-xs text-red-500 mt-1" role="alert">
+              <p id="name-error" class="text-xs text-red-500 mt-1" role="alert">
                 {{
                   (loginForm.name().errors()[0]?.kind
                     ? `login.errors.${loginForm.name().errors()[0].kind}`
@@ -72,7 +73,7 @@
               {{ 'login.form.password' | transloco }}
             </label>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true">
                 <!-- Icono candado -->
                 <svg width="14" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -84,6 +85,7 @@
               <input
                 id="password"
                 type="password"
+                aria-describedby="password-error"
                 class="pl-10 pr-4 py-4 w-full rounded-lg border border-[#A9B4B926] bg-[#D9E4EA4D] text-base text-[#717C82] placeholder:text-[#717C8299] focus:outline-none focus:ring-2 focus:ring-blue-500"
                 [formField]="loginForm.password"
                 [placeholder]="'login.form.passwordPlaceholder' | transloco"
@@ -92,7 +94,7 @@
             </div>
 
             @if (loginForm.password().touched() && loginForm.password().invalid()) {
-              <p class="text-xs text-red-500 mt-1" role="alert">
+              <p id="password-error" class="text-xs text-red-500 mt-1" role="alert">
                 @if (loginForm.password().invalid()) {
                   {{
                     (loginForm.password().errors()[0]?.kind

@@ -19,6 +19,7 @@ import { debounceTime, map } from 'rxjs/operators';
       <input
         #searchInput
         type="search"
+        [attr.aria-label]="'header.search' | transloco"
         [value]="searchValue()"
         (input)="onSearch(searchInput.value)"
         [placeholder]="'header.search' | transloco"

@@ -5,7 +5,11 @@ import { TranslocoModule } from '@jsverse/transloco';
   selector: 'app-error-state',
   imports: [TranslocoModule],
   template: `
-    <div class="flex flex-col items-center justify-center py-16 text-center">
+    <div
+      class="flex flex-col items-center justify-center py-16 text-center"
+      role="alert"
+      aria-live="assertive"
+    >
       <p class="text-sm text-red-400">{{ message() || ('common.error' | transloco) }}</p>
     </div>
   `,

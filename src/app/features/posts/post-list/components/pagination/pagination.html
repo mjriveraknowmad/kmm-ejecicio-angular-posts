@@ -11,10 +11,11 @@
     <div class="flex items-center gap-1">
       @for (page of pages(); track $index) {
         @if (page === '...') {
-          <span class="w-8 text-center text-sm text-[#566166]">…</span>
+          <span class="w-8 text-center text-sm text-[#566166]" aria-hidden="true">…</span>
         } @else {
           <button
             (click)="page !== currentPage() && pageChange.emit(page)"
+            [attr.aria-current]="page === currentPage() ? 'page' : null"
             [class]="
               page === currentPage()
                 ? 'w-10 h-10 rounded-[6px] bg-[#0053DC] text-white text-sm font-bold flex items-center justify-center'

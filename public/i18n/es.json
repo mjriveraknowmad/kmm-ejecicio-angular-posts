@@ -10,7 +10,9 @@
     "delete": "Eliminar",
     "edit": "Editar",
     "back": "Volver",
-    "by": "por"
+    "by": "por",
+    "skipToContent": "Ir al contenido principal",
+    "languageSelector": "Selector de idioma"
   },
   "login": {
     "title": "Bienvenido",

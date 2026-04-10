@@ -14,9 +14,9 @@
   } @else {
     <div class="flex flex-col gap-12">
       @for (comment of comments(); track comment.id) {
-        <div class="flex flex-col gap-2">
+        <article class="flex flex-col gap-2">
           <!-- Author row -->
-          <div class="flex items-start justify-between">
+          <header class="flex items-start justify-between">
             <div class="flex items-center gap-3">
               <span class="text-sm font-bold text-[#2A3439]">
                 {{ comment.user?.name ?? '' }}
@@ -35,11 +35,11 @@
                 {{ 'comments.delete' | transloco }}
               </button>
             }
-          </div>
+          </header>
 
           <!-- Body -->
           <p class="text-base leading-[26px] text-[#566166]">{{ comment.body }}</p>
-        </div>
+        </article>
       }
     </div>
   }

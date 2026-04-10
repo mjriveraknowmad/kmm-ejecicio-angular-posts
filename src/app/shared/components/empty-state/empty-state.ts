@@ -5,7 +5,11 @@ import { TranslocoModule } from '@jsverse/transloco';
   selector: 'app-empty-state',
   imports: [TranslocoModule],
   template: `
-    <div class="flex flex-col items-center justify-center py-16 text-center">
+    <div
+      class="flex flex-col items-center justify-center py-16 text-center"
+      role="status"
+      aria-live="polite"
+    >
       <p class="text-sm text-gray-400">{{ message() || ('common.empty' | transloco) }}</p>
     </div>
   `,
