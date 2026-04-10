@@ -22,7 +22,7 @@
                 {{ comment.user?.name ?? '' }}
               </span>
               <span class="text-xs text-[#56616699]">
-                {{ comment.createdAt | date: 'mediumDate' }}
+                {{ comment.createdAt | date: 'mediumDate' : undefined : currentLang() }}
               </span>
             </div>
 

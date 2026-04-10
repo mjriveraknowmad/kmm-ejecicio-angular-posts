@@ -1,7 +1,8 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { DatePipe, UpperCasePipe } from '@angular/common';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { PostWithUser } from '../../../models/post.model';
 
 @Component({
@@ -12,6 +13,11 @@ import { PostWithUser } from '../../../models/post.model';
 export class PostCardComponent {
   post = input.required<PostWithUser>();
   currentUserId = input<number | undefined>();
+
+  private transloco = inject(TranslocoService);
+  readonly currentLang = toSignal(this.transloco.langChanges$, {
+    initialValue: this.transloco.getActiveLang(),
+  });
 
   readonly isOwner = computed(() => this.post().userId === this.currentUserId());
 

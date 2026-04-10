@@ -1,6 +1,7 @@
 import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../../../core/auth/services/auth.service';
 import { CommentsService } from '../../../services/comments.service';
 import { CommentWithUser } from '../../../models/comment.model';
@@ -24,6 +25,10 @@ export class CommentSectionComponent {
 
   protected auth = inject(AuthService);
   private commentsService = inject(CommentsService);
+  private transloco = inject(TranslocoService);
+  readonly currentLang = toSignal(this.transloco.langChanges$, {
+    initialValue: this.transloco.getActiveLang(),
+  });
 
   private readonly LIMIT = 5;
 

@@ -1,8 +1,16 @@
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { render, screen } from '@testing-library/angular';
 import { provideRouter } from '@angular/router';
-import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
+import {
+  TranslocoService,
+  TranslocoTestingModule,
+  TranslocoTestingOptions,
+} from '@jsverse/transloco';
 import { PostCardComponent } from './post-card';
 import { PostWithUser } from '../../../models/post.model';
+
+registerLocaleData(localeEs);
 
 const translocoConfig: TranslocoTestingOptions = {
   langs: { es: {}, en: {} },
@@ -76,6 +84,38 @@ describe('PostCardComponent', () => {
       await setup(mockPost);
       const link = screen.getByRole('link', { name: 'Test Post Title' });
       expect(link.getAttribute('href')).toBe('/posts/1');
+    });
+  });
+
+  describe('createdAt date', () => {
+    it('should format date using Spanish locale when lang is es', async () => {
+      await setup(mockPost);
+      // January in es locale → "ene." → uppercased → "ENE."
+      expect(screen.getByText(/ENE/)).toBeTruthy();
+    });
+
+    it('should format date using English locale when lang is en', async () => {
+      const { fixture } = await setup(mockPost);
+      const transloco = fixture.debugElement.injector.get(TranslocoService);
+      transloco.setActiveLang('en');
+      await fixture.whenStable();
+      fixture.detectChanges();
+      // January in en locale → "Jan" → uppercased → "JAN"
+      expect(screen.getByText(/JAN/)).toBeTruthy();
+    });
+
+    it('should reactively reformat when language switches from es to en', async () => {
+      const { fixture } = await setup(mockPost);
+
+      expect(screen.getByText(/ENE/)).toBeTruthy();
+
+      const transloco = fixture.debugElement.injector.get(TranslocoService);
+      transloco.setActiveLang('en');
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(screen.getByText(/JAN/)).toBeTruthy();
+      expect(screen.queryByText(/ENE/)).toBeNull();
     });
   });
 });

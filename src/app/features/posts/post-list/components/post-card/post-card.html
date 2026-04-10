@@ -8,7 +8,7 @@
       {{ post().title }}
     </a>
     <span class="font-mono text-xs text-[#56616699] shrink-0 mt-1">
-      {{ post().createdAt | date: 'MMM yyyy' | uppercase }}
+      {{ post().createdAt | date: 'MMM yyyy' : undefined : currentLang() | uppercase }}
     </span>
   </div>
 
