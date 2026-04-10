@@ -12,7 +12,7 @@
   } @else if (!comments().length) {
     <p class="text-sm text-[#56616699]">{{ 'comments.empty' | transloco }}</p>
   } @else {
-    <div #scrollContainer class="flex flex-col gap-12 max-h-[350px] overflow-y-auto pr-1">
+    <div #scrollContainer class="flex flex-col gap-12 max-h-[350px] overflow-y-auto pr-4">
       @for (comment of comments(); track comment.id) {
         <article class="flex flex-col gap-2">
           <!-- Author row -->
