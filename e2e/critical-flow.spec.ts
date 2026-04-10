@@ -101,19 +101,19 @@ test('Edit post — owner can update title, body and tags', async ({ page }) => 
 
   // ─── 2. Navigate to post detail ──────────────────────────────────────────
   await page.goto('/posts/1');
-  await expect(page.locator('app-loading-spinner')).toHaveCount(0, { timeout: 10000 });
+  await expect(page.locator('app-loading-spinner')).toHaveCount(0, { timeout: 5000 });
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 
   // ─── 3. Click Edit ───────────────────────────────────────────────────────
   const editLink = page.getByRole('link', { name: 'Editar' });
   await editLink.evaluate((el) => el.scrollIntoView({ block: 'center' }));
   await editLink.click();
-  await expect(page).toHaveURL('/posts/1/edit');
+  await expect(page).toHaveURL('/posts/1/edit', { timeout: 5000 });
   await expect(page.getByRole('heading', { name: 'Editar post' })).toBeVisible();
 
   // ─── 4. Verify form is prefilled with existing values ────────────────────
   // Wait for the httpResource to load and patch the form
-  await expect(page.locator('#title')).not.toHaveValue('', { timeout: 10000 });
+  await expect(page.locator('#title')).not.toHaveValue('', { timeout: 5000 });
   await expect(page.getByPlaceholder('Contenido del post...')).not.toHaveValue('');
 
   // ─── 5. Update the title ─────────────────────────────────────────────────
@@ -132,7 +132,7 @@ test('Edit post — owner can update title, body and tags', async ({ page }) => 
   const editLink2 = page.getByRole('link', { name: 'Editar' });
   await editLink2.evaluate((el) => el.scrollIntoView({ block: 'center' }));
   await editLink2.click();
-  await expect(page.getByPlaceholder('Título del post...')).not.toHaveValue('', { timeout: 10000 });
+  await expect(page.getByPlaceholder('Título del post...')).not.toHaveValue('', { timeout: 5000 });
   await page.getByPlaceholder('Título del post...').fill('Post 1: practical Angular topic 1');
   await page.getByRole('button', { name: 'Guardar' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
