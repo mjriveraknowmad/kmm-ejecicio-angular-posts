@@ -22,7 +22,8 @@
       "password": "Contraseña",
       "submit": "Acceder",
       "usernamePlaceholder": "usuario",
-      "passwordPlaceholder": "contraseña"
+      "passwordPlaceholder": "contraseña",
+      "validationError": "Por favor, completa todos los campos."
     },
     "errors": {
       "invalidCredentials": "Usuario o contraseña incorrectos.",

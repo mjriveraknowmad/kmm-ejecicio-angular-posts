@@ -22,7 +22,8 @@
       "password": "Password",
       "submit": "Sign in",
       "usernamePlaceholder": "username",
-      "passwordPlaceholder": "password"
+      "passwordPlaceholder": "password",
+      "validationError": "Please fill in all required fields."
     },
     "errors": {
       "invalidCredentials": "Invalid username or password.",

@@ -2,6 +2,8 @@
   <div class="flex justify-center py-16">
     <app-loading-spinner />
   </div>
+} @else if (isEditMode() && postResource.error()) {
+  <app-error-state />
 } @else {
   <div class="flex flex-col gap-12 max-w-[848px]">
     <!-- Header -->

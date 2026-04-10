@@ -7,6 +7,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { PostsService } from '../services/posts.service';
 import { Post } from '../models/post.model';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
 import { AuthService } from '../../../core/auth/services/auth.service';
 
 interface PostFormData {
@@ -19,7 +20,7 @@ interface PostFormData {
 
 @Component({
   selector: 'app-post-editor-page',
-  imports: [TranslocoModule, FormField, LoadingSpinnerComponent],
+  imports: [TranslocoModule, FormField, LoadingSpinnerComponent, ErrorStateComponent],
   templateUrl: './post-editor-page.html',
 })
 export class PostEditorPageComponent {
