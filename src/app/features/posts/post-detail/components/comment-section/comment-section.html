@@ -5,14 +5,14 @@
   </h2>
 
   <!-- Loading / empty / list -->
-  @if (commentsResource.isLoading()) {
+  @if (isLoading() && !comments().length) {
     <div class="flex justify-center py-8">
       <app-loading-spinner />
     </div>
   } @else if (!comments().length) {
     <p class="text-sm text-[#56616699]">{{ 'comments.empty' | transloco }}</p>
   } @else {
-    <div class="flex flex-col gap-12">
+    <div #scrollContainer class="flex flex-col gap-12 max-h-[350px] overflow-y-auto pr-1">
       @for (comment of comments(); track comment.id) {
         <article class="flex flex-col gap-2">
           <!-- Author row -->
@@ -40,6 +40,18 @@
           <!-- Body -->
           <p class="text-base leading-[26px] text-[#566166]">{{ comment.body }}</p>
         </article>
+      }
+
+      <!-- Infinite scroll sentinel -->
+      @if (hasMore()) {
+        <div appInfiniteScroll [root]="scrollContainer" (scrolled)="loadMore()" class="h-1"></div>
+      }
+
+      <!-- Loading indicator for subsequent pages -->
+      @if (isLoading()) {
+        <div class="flex justify-center py-4">
+          <app-loading-spinner />
+        </div>
       }
     </div>
   }

@@ -1,12 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { AuthService } from '../../../core/auth/services/auth.service';
-import { Comment } from '../models/comment.model';
+import { Comment, CommentWithUser } from '../models/comment.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommentsService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
+
+  getPage(postId: number, page: number, limit = 5) {
+    return this.http
+      .get<CommentWithUser[]>('/api/comments', {
+        params: {
+          postId,
+          _expand: 'user',
+          _page: page,
+          _limit: limit,
+          _sort: 'createdAt',
+          _order: 'desc',
+        },
+        observe: 'response',
+      })
+      .pipe(
+        map((res) => ({
+          comments: res.body ?? [],
+          total: Number(res.headers.get('X-Total-Count') ?? 0),
+        })),
+      );
+  }
 
   create(postId: number, body: string) {
     return this.http.post<Comment>('/api/comments', {
