@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// ─── Helper ──────────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 async function login(page: Page, username = 'alice', password = 'alice123') {
   await page.goto('/login');
@@ -10,59 +10,23 @@ async function login(page: Page, username = 'alice', password = 'alice123') {
   await expect(page).toHaveURL('/posts');
 }
 
-// ─── Tests ───────────────────────────────────────────────────────────────────
-
-test('Login redirects to posts list', async ({ page }) => {
-  await login(page);
-  await expect(page.getByRole('heading', { name: /posts/i })).toBeVisible();
-});
-
-test('Create post and view detail', async ({ page }) => {
-  await login(page);
-
+async function createPost(
+  page: Page,
+  title: string,
+  body = 'Cuerpo del post creado por el test E2E.',
+  tags = 'e2e',
+): Promise<string> {
   await page.getByRole('link', { name: 'Nuevo' }).click();
   await expect(page).toHaveURL('/posts/new');
-
-  const postTitle = `E2E Post ${Date.now()}`;
-  await page.getByPlaceholder('Título del post...').fill(postTitle);
-  await page
-    .getByPlaceholder('Contenido del post...')
-    .fill('Cuerpo del post creado por el test E2E de Playwright.');
-  await page.getByPlaceholder('Tags, separados por coma').fill('e2e, playwright');
+  await page.getByPlaceholder('Título del post...').fill(title);
+  await page.getByPlaceholder('Contenido del post...').fill(body);
+  await page.getByPlaceholder('Tags, separados por coma').fill(tags);
   await page.getByRole('button', { name: 'Publicar' }).click();
-
   await expect(page).toHaveURL(/\/posts\/\d+$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText(postTitle);
-});
+  return page.url();
+}
 
-test('Add comment to post', async ({ page }) => {
-  await login(page);
-
-  await page.goto('/posts/1');
-  await expect(page.locator('app-loading-spinner')).toHaveCount(0, { timeout: 5000 });
-
-  const commentBox = page.getByPlaceholder('Escribe tu comentario...');
-  await commentBox.evaluate((el) => el.scrollIntoView({ block: 'center' }));
-  await commentBox.fill('Comentario del test E2E.');
-  await page.getByRole('button', { name: 'Publicar comentario' }).click();
-
-  await expect(page.getByText('Comentario del test E2E.').first()).toBeVisible({ timeout: 5000 });
-});
-
-test('Delete own post', async ({ page, isMobile }) => {
-  test.setTimeout(10000);
-  await login(page);
-
-  // Create a post to delete
-  await page.getByRole('link', { name: 'Nuevo' }).click();
-  const postTitle = `E2E Delete Test ${Date.now()}`;
-  await page.getByPlaceholder('Título del post...').fill(postTitle);
-  await page.getByPlaceholder('Contenido del post...').fill('Post para eliminar.');
-  await page.getByPlaceholder('Tags, separados por coma').fill('e2e');
-  await page.getByRole('button', { name: 'Publicar' }).click();
-
-  await expect(page).toHaveURL(/\/posts\/\d+$/);
-
+async function deleteCurrentPost(page: Page, isMobile = false): Promise<void> {
   const deleteBtn = page.locator('[data-cy="post-delete-btn"]');
   await deleteBtn.waitFor({ state: 'visible' });
   if (isMobile) {
@@ -82,73 +46,105 @@ test('Delete own post', async ({ page, isMobile }) => {
   }
 
   await expect(page).toHaveURL('/posts');
-  await expect(page.getByText(postTitle)).not.toBeVisible();
-});
+}
 
-test('Logout redirects to login', async ({ page }) => {
+// ─── Tests ───────────────────────────────────────────────────────────────────
+
+test('Full cycle: login → create post → detail → add comment → delete → logout', async ({
+  page,
+  isMobile,
+}) => {
+  test.setTimeout(30000);
+
+  // 1. Login → verify posts list is shown
   await login(page);
+  await expect(page.getByRole('heading', { name: /posts/i })).toBeVisible();
+
+  // 2. Create post → land on detail
+  const postTitle = `E2E Cycle ${Date.now()}`;
+  await createPost(
+    page,
+    postTitle,
+    'Cuerpo del post creado por el test E2E de Playwright.',
+    'e2e, playwright',
+  );
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(postTitle);
+
+  // 3. Add comment
+  const commentBox = page.getByPlaceholder('Escribe tu comentario...');
+  await commentBox.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await commentBox.fill('Comentario del test E2E.');
+  await page.getByRole('button', { name: 'Publicar comentario' }).click();
+  await expect(page.getByText('Comentario del test E2E.').first()).toBeVisible({ timeout: 5000 });
+
+  // 4. Delete post → redirected to list, post no longer visible
+  await deleteCurrentPost(page, isMobile);
+  await expect(page.getByText(postTitle)).not.toBeVisible();
+
+  // 5. Logout
   await page.getByRole('button', { name: 'Salir' }).click();
   await expect(page).toHaveURL('/login');
 });
 
 test('Edit post — owner can update title, body and tags', async ({ page }) => {
-  // ─── 1. Login as alice (owner of post id=1) ──────────────────────────────
-  await page.goto('/login');
-  await page.getByPlaceholder('usuario').fill('alice');
-  await page.getByPlaceholder('contraseña').fill('alice123');
-  await page.getByRole('button', { name: 'Acceder' }).click();
-  await expect(page).toHaveURL('/posts');
+  await login(page);
 
-  // ─── 2. Navigate to post detail ──────────────────────────────────────────
-  await page.goto('/posts/1');
-  await expect(page.locator('app-loading-spinner')).toHaveCount(0, { timeout: 5000 });
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  // Create a dedicated post for this test
+  const originalTitle = `E2E Edit ${Date.now()}`;
+  const postUrl = await createPost(page, originalTitle, 'Contenido original del post.', 'e2e');
+  const postId = postUrl.match(/\/posts\/(\d+)$/)?.[1];
 
-  // ─── 3. Click Edit ───────────────────────────────────────────────────────
+  // Click Edit
   const editLink = page.getByRole('link', { name: 'Editar' });
   await editLink.evaluate((el) => el.scrollIntoView({ block: 'center' }));
   await editLink.click();
-  await expect(page).toHaveURL('/posts/1/edit', { timeout: 5000 });
+  await expect(page).toHaveURL(`/posts/${postId}/edit`, { timeout: 5000 });
   await expect(page.getByRole('heading', { name: 'Editar post' })).toBeVisible();
 
-  // ─── 4. Verify form is prefilled with existing values ────────────────────
-  // Wait for the httpResource to load and patch the form
+  // Wait for form to be prefilled
   await expect(page.locator('#title')).not.toHaveValue('', { timeout: 5000 });
   await expect(page.getByPlaceholder('Contenido del post...')).not.toHaveValue('');
 
-  // ─── 5. Update the title ─────────────────────────────────────────────────
-  const updatedTitle = `Post 1 editado ahora`;
+  // Update title
+  const updatedTitle = `${originalTitle} editado`;
   await page.getByPlaceholder('Título del post...').fill(updatedTitle);
-  await expect(page.getByRole('button', { name: 'Guardar' })).toBeVisible();
   await page.getByRole('button', { name: 'Guardar' }).click();
 
-  // ─── 6. Redirected to detail with updated title ───────────────────────────
-  await expect(page).toHaveURL('/posts/1');
+  // Verify redirect to detail with updated title
+  await expect(page).toHaveURL(`/posts/${postId}`);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     new RegExp(`\\s*${updatedTitle}\\s*`),
   );
 
-  // ─── 7. Restore original title ───────────────────────────────────────────
-  const editLink2 = page.getByRole('link', { name: 'Editar' });
-  await editLink2.evaluate((el) => el.scrollIntoView({ block: 'center' }));
-  await editLink2.click();
-  await expect(page.getByPlaceholder('Título del post...')).not.toHaveValue('', { timeout: 5000 });
-  await page.getByPlaceholder('Título del post...').fill('Post 1: practical Angular topic 1');
-  await page.getByRole('button', { name: 'Guardar' }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Post 1: practical Angular topic 1',
-  );
+  // Clean up: delete the post
+  await deleteCurrentPost(page);
 });
 
 test('Non-owner cannot access edit route (redirects to forbidden)', async ({ page }) => {
-  // ─── Login as bruno (does NOT own post id=1) ─────────────────────────────
-  await page.goto('/login');
-  await page.getByPlaceholder('usuario').fill('bruno');
-  await page.getByPlaceholder('contraseña').fill('bruno123');
-  await page.getByRole('button', { name: 'Acceder' }).click();
-  await expect(page).toHaveURL('/posts');
+  // Create a post owned by alice
+  await login(page, 'alice', 'alice123');
+  const postUrl = await createPost(
+    page,
+    `E2E NonOwner ${Date.now()}`,
+    'Contenido para test de no propietario.',
+    'e2e',
+  );
+  const postId = postUrl.match(/\/posts\/(\d+)$/)?.[1];
 
-  // ─── Try to navigate to post 1's edit page ───────────────────────────────
-  await page.goto('/posts/1/edit');
+  // Logout alice
+  await page.getByRole('button', { name: 'Salir' }).click();
+  await expect(page).toHaveURL('/login');
+
+  // Login as bruno (not the owner)
+  await login(page, 'bruno', 'bruno123');
+
+  // Try to access alice's post edit page
+  await page.goto(`/posts/${postId}/edit`);
   await expect(page).toHaveURL('/forbidden');
+
+  // Clean up: logout bruno, login alice, delete the post
+  await page.getByRole('button', { name: 'Salir' }).click();
+  await login(page, 'alice', 'alice123');
+  await page.goto(postUrl);
+  await deleteCurrentPost(page);
 });
