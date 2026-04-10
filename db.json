@@ -31,15 +31,15 @@
   ],
   "posts": [
     {
-      "id": 1,
-      "userId": 1,
       "title": "Post 1: practical Angular topic 1",
       "body": "This is the body for post 1. It contains enough text to validate filtering by title and content, ownership rules, editing flows and realistic list rendering in the technical challenge.",
       "tags": [
         "angular",
         "performance"
       ],
-      "createdAt": "2026-01-02T09:01:00.000Z"
+      "createdAt": "2026-01-02T09:01:00.000Z",
+      "userId": 1,
+      "id": 1
     },
     {
       "id": 2,
@@ -469,6 +469,72 @@
         "testing"
       ],
       "createdAt": "2026-01-13T09:40:00.000Z"
+    },
+    {
+      "title": "E2E Post 1775803331011",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:42:11.094Z",
+      "id": 41
+    },
+    {
+      "title": "E2E Post 1775803333817",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:42:13.885Z",
+      "id": 42
+    },
+    {
+      "title": "E2E Post 1775803394508",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:43:14.572Z",
+      "id": 43
+    },
+    {
+      "title": "E2E Post 1775803397958",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:43:18.043Z",
+      "id": 44
+    },
+    {
+      "title": "E2E Post 1775803469452",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:44:29.514Z",
+      "id": 45
+    },
+    {
+      "title": "E2E Post 1775803473217",
+      "body": "Cuerpo del post creado por el test E2E de Playwright.",
+      "tags": [
+        "e2e",
+        "playwright"
+      ],
+      "userId": 1,
+      "createdAt": "2026-04-10T06:44:33.300Z",
+      "id": 46
     }
   ],
   "comments": [
@@ -1871,6 +1937,27 @@
       "userId": 1,
       "body": "Comment 200 for post 40. This message is long enough to validate rendering, ownership checks, deferred loading and edit or delete flows.",
       "createdAt": "2026-02-05T10:20:00.000Z"
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Comentario del test E2E.",
+      "createdAt": "2026-04-10T06:42:11.641Z",
+      "id": 201
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Comentario del test E2E.",
+      "createdAt": "2026-04-10T06:43:15.438Z",
+      "id": 202
+    },
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Comentario del test E2E.",
+      "createdAt": "2026-04-10T06:43:18.800Z",
+      "id": 203
     }
   ]
 }

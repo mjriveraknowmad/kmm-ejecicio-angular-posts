@@ -63,12 +63,22 @@
             },
             "development": {
               "buildTarget": "kmm-ejecicio-angular-posts:build:development"
+            },
+            "e2e": {
+              "buildTarget": "kmm-ejecicio-angular-posts:build:development",
+              "port": 60864
             }
           },
           "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "e2e": {
+          "builder": "playwright-ng-schematics:playwright",
+          "options": {
+            "devServerTarget": "kmm-ejecicio-angular-posts:serve:e2e"
+          }
         }
       }
     }
