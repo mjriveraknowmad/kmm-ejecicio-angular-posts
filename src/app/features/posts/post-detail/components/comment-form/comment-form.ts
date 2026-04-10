@@ -20,7 +20,7 @@ export class CommentFormComponent {
     required(f.body);
   });
 
-  async onSubmit(event: Event): Promise<void> {
+  onSubmit(event: Event) {
     event.preventDefault();
     submit(this.commentForm, async () => {
       const body = this.commentModel().body.trim();
