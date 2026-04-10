@@ -45,6 +45,6 @@ export class PostDetailPageComponent {
   confirmDelete() {
     const post = this.postResource.value();
     if (!post) return;
-    this.postsService.delete(post.id).subscribe(() => this.router.navigate(['/post']));
+    this.postsService.delete(post.id).subscribe(() => this.router.navigate(['/posts']));
   }
 }

@@ -62,6 +62,13 @@
         }
       </div>
 
+      <!-- Author -->
+      @if (post.user) {
+        <p class="text-sm text-[#566166]">
+          {{ 'common.by' | transloco }} <span class="font-semibold">{{ post.user.name }}</span>
+        </p>
+      }
+
       <!-- Body -->
       <p id="post-body" class="text-lg leading-[29px] text-[#566166]">
         {{ post.body }}
