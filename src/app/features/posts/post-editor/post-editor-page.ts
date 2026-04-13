@@ -1,11 +1,9 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { TranslocoModule } from '@jsverse/transloco';
 import { form, FormField, required } from '@angular/forms/signals';
 import { PostsService } from '../services/posts.service';
-import { Post } from '../models/post.model';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
 import { AuthService } from '../../../core/auth/services/auth.service';
@@ -26,12 +24,11 @@ interface PostFormData {
 export class PostEditorPageComponent {
   readonly id = input<string>();
   readonly isEditMode = computed(() => !!this.id());
-  readonly postResource = httpResource<Post>(() =>
-    this.id() ? { url: `/api/posts/${this.id()}` } : undefined,
-  );
   private router = inject(Router);
   private postsService = inject(PostsService);
   private auth = inject(AuthService);
+
+  readonly postResource = this.postsService.getOneForEdit(() => this.id());
 
   readonly postModel = signal<PostFormData>({
     title: '',
