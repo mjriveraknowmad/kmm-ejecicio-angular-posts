@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from '../../../core/auth/services/auth.service';
-import { Post } from '../models/post.model';
+import { Post, PostWithUser } from '../models/post.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
@@ -22,5 +22,16 @@ export class PostsService {
 
   delete(id: number) {
     return this.http.delete<void>(`/api/posts/${id}`);
+  }
+
+  getOne(id: () => string) {
+    return httpResource<PostWithUser>(() => ({
+      url: `/api/posts/${id()}`,
+      params: { _expand: 'user' },
+    }));
+  }
+
+  getOneForEdit(id: () => string | undefined) {
+    return httpResource<Post>(() => (id() ? { url: `/api/posts/${id()}` } : undefined));
   }
 }
