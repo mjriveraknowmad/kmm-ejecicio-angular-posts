@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, numberAttribute, resource } from '@angular/core';
-import { HttpClient, httpResource } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { PostsService } from '../services/posts.service';
 import { PostPrefetchService } from '../services/post-prefetch.service';
+import { UsersService } from '../services/users.service';
 import { PostWithUser } from '../models/post.model';
 import { PostCardComponent } from './components/post-card/post-card';
 import { PostFiltersComponent } from './components/post-filters/post-filters';
@@ -14,11 +15,6 @@ import { PaginationComponent } from './components/pagination/pagination';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
-
-interface UserOption {
-  id: number;
-  name: string;
-}
 
 const PAGE_SIZE = 4;
 
@@ -41,6 +37,7 @@ export class PostListPageComponent {
   private postsService = inject(PostsService);
   private prefetchService = inject(PostPrefetchService);
   protected auth = inject(AuthService);
+  protected usersService = inject(UsersService);
 
   // Query param inputs via withComponentInputBinding()
   page = input(1, {
@@ -52,9 +49,6 @@ export class PostListPageComponent {
   q = input('');
   userId = input(''); // string from URL, converted to number in loader
   tag = input('');
-
-  // Users for author filter dropdown
-  readonly usersResource = httpResource<UserOption[]>(() => '/api/users');
 
   // Posts resource using resource() to access X-Total-Count header
   readonly postsResource = resource({
