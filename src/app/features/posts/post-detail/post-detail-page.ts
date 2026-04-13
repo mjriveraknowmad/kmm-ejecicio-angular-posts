@@ -1,11 +1,9 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { httpResource } from '@angular/common/http';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { PostsService } from '../services/posts.service';
 import { PostPrefetchService } from '../services/post-prefetch.service';
-import { PostWithUser } from '../models/post.model';
 import { CommentSectionComponent } from './components/comment-section/comment-section';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state';
@@ -29,10 +27,7 @@ export class PostDetailPageComponent {
   private postsService = inject(PostsService);
   private prefetchService = inject(PostPrefetchService);
 
-  readonly postResource = httpResource<PostWithUser>(() => ({
-    url: `/api/posts/${this.id()}`,
-    params: { _expand: 'user' },
-  }));
+  readonly postResource = this.postsService.getOne(() => this.id());
 
   readonly idAsNumber = computed(() => Number(this.id()));
 
