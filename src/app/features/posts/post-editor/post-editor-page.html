@@ -72,14 +72,14 @@
         <button
           type="button"
           (click)="onCancel()"
-          class="px-8 py-3 rounded-md text-base font-semibold text-[#566166] hover:bg-black/5 transition-colors"
+          class="px-8 py-3 rounded-md text-base font-semibold text-[#566166] hover:bg-black/5 transition-colors cursor-pointer"
         >
           {{ 'common.cancel' | transloco }}
         </button>
         <button
           type="submit"
           [disabled]="isSaving()"
-          class="px-10 py-3 rounded-md text-base font-bold text-white bg-gradient-to-br from-[#0053DC] to-[#3E76FE] shadow-[0_10px_40px_rgba(0,83,220,0.15)] disabled:opacity-50 transition-opacity"
+          class="px-10 py-3 rounded-md text-base font-bold text-white bg-gradient-to-br from-[#0053DC] to-[#3E76FE] shadow-[0_10px_40px_rgba(0,83,220,0.15)] disabled:opacity-50 transition-opacity cursor-pointer"
         >
           @if (isEditMode()) {
             {{ 'posts.editor.form.submitEdit' | transloco }}

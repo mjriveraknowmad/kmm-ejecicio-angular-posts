@@ -3,7 +3,7 @@
     <button
       (click)="pageChange.emit(currentPage() - 1)"
       [disabled]="currentPage() === 1"
-      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
     >
       {{ 'pagination.previous' | transloco }}
     </button>
@@ -16,6 +16,7 @@
           <button
             (click)="page !== currentPage() && pageChange.emit(page)"
             [attr.aria-current]="page === currentPage() ? 'page' : null"
+            class="cursor-pointer"
             [class]="
               page === currentPage()
                 ? 'w-10 h-10 rounded-[6px] bg-[#0053DC] text-white text-sm font-bold flex items-center justify-center'
@@ -31,7 +32,7 @@
     <button
       (click)="pageChange.emit(currentPage() + 1)"
       [disabled]="currentPage() === totalPages()"
-      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      class="text-sm font-medium text-[#566166] hover:text-[#2A3439] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
     >
       {{ 'pagination.next' | transloco }}
     </button>

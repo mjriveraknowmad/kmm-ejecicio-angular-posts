@@ -42,7 +42,7 @@
             @if (!isConfirmingDelete()) {
               <button
                 (click)="isConfirmingDelete.set(true)"
-                class="rounded px-3 py-1 text-sm font-medium text-[#9F403D] border border-[rgba(159,64,61,0.2)] hover:bg-red-50 transition-colors"
+                class="cursor-pointer rounded px-3 py-1 text-sm font-medium text-[#9F403D] border border-[rgba(159,64,61,0.2)] hover:bg-red-50 transition-colors"
                 aria-label="{{ 'posts.detail.delete' | transloco }}"
                 data-cy="post-delete-btn"
               >
@@ -51,7 +51,7 @@
             } @else {
               <button
                 (click)="confirmDelete()"
-                class="rounded px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                class="cursor-pointer rounded px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
                 aria-label="{{ 'posts.detail.deleteConfirm' | transloco }}"
                 data-cy="confirm-post-delete-btn"
               >
@@ -59,7 +59,7 @@
               </button>
               <button
                 (click)="isConfirmingDelete.set(false)"
-                class="rounded px-3 py-1 text-sm font-medium text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
+                class="cursor-pointer rounded px-3 py-1 text-sm font-medium text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
                 aria-label="{{ 'common.cancel' | transloco }}"
                 data-cy="cancel-post-delete-btn"
               >
