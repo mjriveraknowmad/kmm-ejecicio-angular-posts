@@ -123,7 +123,7 @@ Si has usado IA, deja una nota breve indicando qué herramientas usaste, para qu
 
 ### Usos y notas personales:
 
-Creación inicial de estructura base, pidiendole que me lo divida en bases para abordar lo que se pedía. No usé NX porque no sabía que era para practicar nosotros, sino igual lo hacía, aunque obviamente me parecería una clara sobreingienería..., de hecho mi intención era hacer diferentes versiones, primero una base funcional y luego mejorarla, pero me llegó una asignación en Vue 3 el segundo día (framework que apenas conozco, pero se van sus integrantes), así que mis esfuerzos entiendo que se deberían centrar un poco más en Vue para defender el puesto.
+Creación inicial de estructura base, pidiendole que me lo divida en fases para abordar lo que se pedía. No usé NX porque no sabía que era para practicar nosotros, sino igual lo hacía, aunque obviamente me parecería una clara sobreingienería..., de hecho mi intención era hacer diferentes versiones, primero una base funcional y luego mejorarla, pero me llegó una asignación en Vue 3 el segundo día (framework que apenas conozco, pero se van sus integrantes), así que mis esfuerzos entiendo que se deberían centrar un poco más en Vue para defender el puesto.
 También usé la IA para la transformación de las css a componentes con Tailwind, sus animaciones y usos de labels aria, así como revisiones de accesibilidad.
 Y en los tests, que prácticamente me los hizo el Github Copilot, aunque soy consciente de que sería interesantes hacerle más tests, pero lo dicho al moverme a Vue 3, dejé de lado esta práctica.
 
