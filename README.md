@@ -121,6 +121,33 @@ Se permite usar herramientas de IA durante el desarrollo. Se valorará que se us
 
 Si has usado IA, deja una nota breve indicando qué herramientas usaste, para qué las usaste y qué decisiones revisaste o corregiste manualmente.
 
+### Usos y notas personales:
+
+Creación inicial de estructura base, pidiendole que me lo divida en bases para abordar lo que se pedía. No usé NX porque no sabía que era para practicar nosotros, sino igual lo hacía, aunque obviamente me parecería una clara sobreingienería..., de hecho mi intención era hacer diferentes versiones, primero una base funcional y luego mejorarla, pero me llegó una asignación en Vue 3 el segundo día (framework que apenas conozco, pero se van sus integrantes), así que mis esfuerzos entiendo que se deberían centrar un poco más en Vue para defender el puesto.
+También usé la IA para la transformación de las css a componentes con Tailwind, sus animaciones y usos de labels aria, así como revisiones de accesibilidad.
+Y en los tests, que prácticamente me los hizo el Github Copilot, aunque soy consciente de que sería interesantes hacerle más tests, pero lo dicho al moverme a Vue 3, dejé de lado esta práctica.
+
+Sobre que decisiones, para usar el httpResource (que no usara nunca), me basé en ejemplos que me fui encontrando, el tema es que primero lo hice en plan bruto dentro de componente y luego pensé en llevarmelo al service, como por ejemplo sí hice en users.service, porque para mí sería lo habitual, pero aún así tuve la duda, de si era bueno esa encapsulación, la sorpresa fue que me dijo que no, y me dió varias razones. Este es un fragmento de la consulta:
+```
+¿No sería mejor que la funcionalidad seleccionada
+readonly commentsResource = httpResource<CommentWithUser[]>(() => ({
+url: '/api/comments',
+params: { postId: this.postId(), _expand: 'user' },
+}));
+estuviera en el #sym:CommentsService ?
+```
+
+Parte de la respuesta:
+```
+No, es mejor dejarlo en el componente. Hay tres razones concretas basadas en las convenciones del propio proyecto:
+
+httpResource() es reactivo a señales del componente — cierra sobre this.postId() que es un input.required<number>(). Para moverlo al servicio habría que pasar la señal como argumento, lo que complica innecesariamente la API del servicio.
+
+La separación actual ya es correcta — CommentsService coordina las mutaciones (create, delete). El recurso de lectura vive donde está la fuente de verdad del parámetro reactivo (postId).
+```
+Al final me lo acabé llevando igual a los servicios. Pero tuve algunos debates...
+
+
 ## Valorable
 
 - `router state` con `query params` para filtros y paginación
