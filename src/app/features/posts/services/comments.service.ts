@@ -31,9 +31,11 @@ export class CommentsService {
   }
 
   create(postId: number, body: string) {
+    const userId = this.auth.currentUser()?.id;
+    if (!userId) throw new Error('User not authenticated');
     return this.http.post<Comment>('/api/comments', {
       postId,
-      userId: this.auth.currentUser()!.id,
+      userId,
       body,
       createdAt: new Date().toISOString(),
     });
@@ -41,5 +43,9 @@ export class CommentsService {
 
   delete(id: number) {
     return this.http.delete<void>(`/api/comments/${id}`);
+  }
+
+  update(id: number, body: string) {
+    return this.http.put<Comment>(`/api/comments/${id}`, { body });
   }
 }

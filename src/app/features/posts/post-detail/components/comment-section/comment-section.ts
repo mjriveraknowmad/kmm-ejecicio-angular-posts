@@ -48,6 +48,10 @@ export class CommentSectionComponent {
 
   readonly isAdding = signal(false);
 
+  // Edit state
+  readonly editingId = signal<number | null>(null);
+  readonly editingBody = signal<string>('');
+
   constructor() {
     effect(() => {
       const postId = this.postId();
@@ -93,7 +97,8 @@ export class CommentSectionComponent {
   }
 
   addComment(body: string) {
-    const user = this.auth.currentUser()!;
+    const user = this.auth.currentUser();
+    if (!user) return;
     const tempId = -Date.now();
     const tempComment: CommentWithUser = {
       id: tempId,
@@ -117,6 +122,33 @@ export class CommentSectionComponent {
         this.allComments.update((c) => c.filter((x) => x.id !== tempId));
         this.total.update((n) => Math.max(0, n - 1));
         this.isAdding.set(false);
+      },
+    });
+  }
+
+  startEdit(comment: CommentWithUser) {
+    this.editingId.set(comment.id);
+    this.editingBody.set(comment.body);
+  }
+
+  cancelEdit() {
+    this.editingId.set(null);
+    this.editingBody.set('');
+  }
+
+  submitEdit(body: string) {
+    const id = this.editingId();
+    if (!id) return;
+    const prev = this.allComments();
+    this.allComments.update((c) => c.map((x) => (x.id === id ? { ...x, body } : x)));
+    this.commentsService.update(id, body).subscribe({
+      next: () => {
+        this.reloadAll();
+        this.cancelEdit();
+      },
+      error: () => {
+        this.allComments.set(prev);
+        this.cancelEdit();
       },
     });
   }

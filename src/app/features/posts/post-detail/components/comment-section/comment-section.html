@@ -26,19 +26,44 @@
               </span>
             </div>
 
-            <!-- Delete (owner only) -->
+            <!-- Edit/Delete (owner only) -->
             @if (comment.userId === auth.currentUser()?.id) {
-              <button
-                (click)="deleteComment(comment.id)"
-                class="text-xs font-semibold text-[#9F403D] hover:underline"
-              >
-                {{ 'comments.delete' | transloco }}
-              </button>
+              <div class="flex gap-2">
+                @if (editingId() !== comment.id) {
+                  <button
+                    (click)="startEdit(comment)"
+                    class="text-xs font-semibold text-blue-700 hover:underline"
+                  >
+                    {{ 'comments.edit' | transloco }}
+                  </button>
+                  <button
+                    (click)="deleteComment(comment.id)"
+                    class="text-xs font-semibold text-[#9F403D] hover:underline"
+                  >
+                    {{ 'comments.delete' | transloco }}
+                  </button>
+                } @else {
+                  <button
+                    (click)="cancelEdit()"
+                    class="text-xs font-semibold text-gray-500 hover:underline"
+                  >
+                    {{ 'comments.cancel' | transloco }}
+                  </button>
+                }
+              </div>
             }
           </header>
 
-          <!-- Body -->
-          <p class="text-base leading-[26px] text-[#566166]">{{ comment.body }}</p>
+          <!-- Body or Edit Form -->
+          @if (editingId() === comment.id) {
+            <app-comment-form
+              [isLoading]="isAdding()"
+              [comment]="editingBody()"
+              (commentSubmit)="submitEdit($event)"
+            />
+          } @else {
+            <p class="text-base leading-[26px] text-[#566166]">{{ comment.body }}</p>
+          }
         </article>
       }
 
@@ -56,6 +81,8 @@
     </div>
   }
 
-  <!-- Add comment form -->
-  <app-comment-form [isLoading]="isAdding()" (commentSubmit)="addComment($event)" />
+  <!-- Add comment form (only if not editing) -->
+  @if (!editingId()) {
+    <app-comment-form [isLoading]="isAdding()" (commentSubmit)="addComment($event)" />
+  }
 </section>

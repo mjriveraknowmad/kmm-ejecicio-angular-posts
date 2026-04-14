@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 import { TranslocoModule } from '@jsverse/transloco';
 
@@ -13,6 +13,7 @@ interface CommentData {
 })
 export class CommentFormComponent {
   readonly isLoading = input(false);
+  readonly comment = input<string | null>(null);
   readonly commentSubmit = output<string>();
 
   private readonly commentModel = signal<CommentData>({ body: '' });
@@ -20,13 +21,27 @@ export class CommentFormComponent {
     required(f.body);
   });
 
+  constructor() {
+    // Sync form value when switching into edit mode
+    effect(() => {
+      const val = this.comment();
+      if (val !== null && val !== undefined) {
+        this.commentModel.set({ body: val });
+      } else {
+        this.commentModel.set({ body: '' });
+      }
+    });
+  }
+
   onSubmit(event: Event) {
     event.preventDefault();
     submit(this.commentForm, async () => {
       const body = this.commentModel().body.trim();
       if (!body) return;
       this.commentSubmit.emit(body);
-      this.commentModel.set({ body: '' });
+      if (this.comment() === null) {
+        this.commentModel.set({ body: '' });
+      }
     });
   }
 }
