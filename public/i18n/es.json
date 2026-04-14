@@ -48,6 +48,7 @@
       "newPost": "Nuevo post"
     },
     "detail": {
+      "title": "Detalle del post",
       "edit": "Editar",
       "delete": "Eliminar",
       "deleteConfirm": "¿Eliminar este post?",
@@ -77,6 +78,8 @@
     "title": "Comentarios",
     "count": "{{count}} comentario(s)",
     "empty": "Sé el primero en comentar.",
+    "edit": "Editar",
+    "cancel": "Cancelar",
     "form": {
       "title": "Añadir comentario",
       "placeholder": "Escribe tu comentario...",

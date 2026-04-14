@@ -48,6 +48,7 @@
       "newPost": "New post"
     },
     "detail": {
+      "title": "Post detail",
       "edit": "Edit",
       "delete": "Delete",
       "deleteConfirm": "Delete this post?",
@@ -77,6 +78,8 @@
     "title": "Comments",
     "count": "{{count}} comment(s)",
     "empty": "Be the first to comment.",
+    "edit": "Edit",
+    "cancel": "Cancel",
     "form": {
       "title": "Add comment",
       "placeholder": "Write your comment...",
