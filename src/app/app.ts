@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -7,13 +7,12 @@ import { TranslocoService } from '@jsverse/transloco';
   imports: [RouterOutlet],
   templateUrl: './app.html',
 })
-export class App implements OnInit {
-  private transloco = inject(TranslocoService);
-
-  ngOnInit() {
+export class App {
+  constructor() {
+    const transloco = inject(TranslocoService);
     const saved = localStorage.getItem('lang');
     if (saved && ['es', 'en'].includes(saved)) {
-      this.transloco.setActiveLang(saved);
+      transloco.setActiveLang(saved);
     }
   }
 }
