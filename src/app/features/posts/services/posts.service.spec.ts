@@ -2,8 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { PostsService } from './posts.service';
 import { Post, PostWithUser } from '../models/post.model';
+
+/** Flush pending microtasks then Angular effects. */
+async function flushAll() {
+  await new Promise<void>((resolve) => queueMicrotask(resolve));
+  TestBed.flushEffects();
+}
 
 const mockPost: Post = {
   id: 1,
@@ -25,7 +32,12 @@ describe('PostsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+      ],
     });
     service = TestBed.inject(PostsService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -38,74 +50,86 @@ describe('PostsService', () => {
   });
 
   describe('getOne()', () => {
-    it('should return a resource that fetches a post by id with _expand=user', () => {
+    it('should return a resource that fetches a post by id with _expand=user', async () => {
       let resource: ReturnType<typeof service.getOne> | undefined;
 
       TestBed.runInInjectionContext(() => {
         resource = service.getOne(() => '1');
       });
 
+      TestBed.flushEffects();
+
       const req = httpMock.expectOne(
         (r) => r.url === '/api/posts/1' && r.params.get('_expand') === 'user',
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockPostWithUser);
+      await flushAll();
 
       expect(resource!.value()).toEqual(mockPostWithUser);
     });
 
-    it('should expose error() when the request fails', () => {
+    it('should expose error() when the request fails', async () => {
+      let resource: ReturnType<typeof service.getOne> | undefined;
+
       TestBed.runInInjectionContext(() => {
-        service.getOne(() => '99');
+        resource = service.getOne(() => '99');
       });
 
-      httpMock
-        .expectOne((r) => r.url === '/api/posts/99')
-        .error(new ProgressEvent('network error'));
+      TestBed.flushEffects();
 
-      // resource error is set; value stays undefined
-      const resources = TestBed.runInInjectionContext(() => service.getOne(() => '99'));
       httpMock
         .expectOne((r) => r.url === '/api/posts/99')
         .error(new ProgressEvent('network error'));
-      expect(resources.value()).toBeUndefined();
+      await flushAll();
+
+      // value() throws when resource is in error state; check error() instead
+      expect(resource!.error()).toBeTruthy();
     });
   });
 
   describe('getOneForEdit()', () => {
-    it('should fetch a plain Post by id without _expand when id is provided', () => {
+    it('should fetch a plain Post by id without _expand when id is provided', async () => {
       let resource: ReturnType<typeof service.getOneForEdit> | undefined;
 
       TestBed.runInInjectionContext(() => {
         resource = service.getOneForEdit(() => '1');
       });
+
+      TestBed.flushEffects();
 
       const req = httpMock.expectOne('/api/posts/1');
       expect(req.request.method).toBe('GET');
       expect(req.request.params.has('_expand')).toBe(false);
       req.flush(mockPost);
+      await flushAll();
 
       expect(resource!.value()).toEqual(mockPost);
     });
 
-    it('should not issue a request when id is undefined', () => {
+    it('should not issue a request when id is undefined', async () => {
       TestBed.runInInjectionContext(() => {
         service.getOneForEdit(() => undefined);
       });
 
+      TestBed.flushEffects();
+
       httpMock.expectNone(() => true);
     });
 
-    it('should expose error() when the request fails', () => {
+    it('should expose error() when the request fails', async () => {
       let resource: ReturnType<typeof service.getOneForEdit> | undefined;
 
       TestBed.runInInjectionContext(() => {
         resource = service.getOneForEdit(() => '1');
       });
 
-      httpMock.expectOne('/api/posts/1').error(new ProgressEvent('network error'));
+      TestBed.flushEffects();
 
-      expect(resource!.value()).toBeUndefined();
+      httpMock.expectOne('/api/posts/1').error(new ProgressEvent('network error'));
+      await flushAll();
+
+      // value() throws when resource is in error state; check error() instead
       expect(resource!.error()).toBeTruthy();
     });
   });

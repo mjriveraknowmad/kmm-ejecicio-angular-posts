@@ -9,9 +9,11 @@ export class PostsService {
   private auth = inject(AuthService);
 
   create(data: Pick<Post, 'title' | 'body' | 'tags'>) {
+    const userId = this.auth.currentUser()?.id;
+    if (!userId) throw new Error('User not authenticated');
     return this.http.post<Post>('/api/posts', {
       ...data,
-      userId: this.auth.currentUser()!.id,
+      userId,
       createdAt: new Date().toISOString(),
     });
   }
