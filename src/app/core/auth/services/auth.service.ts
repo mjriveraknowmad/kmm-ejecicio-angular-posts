@@ -25,7 +25,14 @@ export class AuthService {
       }),
       tap((user) => {
         const token = btoa(`${user.id}:${user.name}:${Date.now()}`);
-        const authUser: AuthUser = { ...user, token };
+        // Exclude any extra fields from API (e.g. password) — store only typed fields
+        const authUser: AuthUser = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          token,
+        };
         this._currentUser.set(authUser);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(authUser));
       }),
