@@ -39,7 +39,7 @@
           class="h-9 min-w-[130px] rounded bg-[#F0F4F7] pl-4 pr-8 text-sm font-medium text-[#566166] appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-200"
         >
           <option value="">{{ 'posts.list.filterByTag' | transloco }}</option>
-          @for (tag of allTags; track tag) {
+          @for (tag of tags(); track tag) {
             <option [value]="tag">{{ tag }}</option>
           }
         </select>

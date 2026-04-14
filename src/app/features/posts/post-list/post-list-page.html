@@ -2,6 +2,7 @@
   <!-- Filter bar -->
   <app-post-filters
     [users]="usersService.users()"
+    [tags]="availableTags()"
     [selectedUserId]="selectedUserId()"
     [selectedTag]="tag()"
     [totalCount]="total()"

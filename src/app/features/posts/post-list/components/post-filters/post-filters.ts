@@ -7,19 +7,6 @@ interface UserOption {
   name: string;
 }
 
-const ALL_TAGS = [
-  'angular',
-  'architecture',
-  'forms',
-  'i18n',
-  'performance',
-  'routing',
-  'signals',
-  'tailwind',
-  'testing',
-  'zoneless',
-];
-
 @Component({
   selector: 'app-post-filters',
   imports: [TranslocoModule, RouterLink],
@@ -27,6 +14,7 @@ const ALL_TAGS = [
 })
 export class PostFiltersComponent {
   users = input<UserOption[]>([]);
+  tags = input<string[]>([]);
   selectedUserId = input<number | undefined>();
   selectedTag = input<string>('');
   totalCount = input<number>(0);
@@ -34,8 +22,6 @@ export class PostFiltersComponent {
 
   authorChange = output<number | undefined>();
   tagChange = output<string>();
-
-  readonly allTags = ALL_TAGS;
 
   onAuthorChange(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
