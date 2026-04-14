@@ -10,7 +10,13 @@ export interface UserOption {
 export class UsersService {
   readonly #usersResource = httpResource<UserOption[]>(() => '/api/users');
 
-  readonly users = computed(() => this.#usersResource.value() ?? []);
+  readonly users = computed(() => {
+    try {
+      return this.#usersResource.value() ?? [];
+    } catch {
+      return [];
+    }
+  });
   readonly isLoading = computed(() => this.#usersResource.isLoading());
   readonly error = computed(() => this.#usersResource.error());
 }
